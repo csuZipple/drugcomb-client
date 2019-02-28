@@ -22,6 +22,7 @@ export default {
   },
   mounted () {
     const barHeight = ((this.height - 20) / this.data.length) - this.margin // 20 is axis height
+    if (barHeight < 10) throw new Error('height is too small')
     const canvas = this.initChart(d3, '.bar-chart')
     const widthScale = d3.scaleLinear().domain([0, Math.max.apply(null, this.data)]).range([0, this.width - 80])
     const colorScale = d3.scaleLinear().domain([0, Math.max.apply(null, this.data)]).range(['red', 'blue'])
