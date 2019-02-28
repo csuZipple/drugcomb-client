@@ -1,6 +1,6 @@
 import {generateMultiItemsRegExp} from '../generator/reg'
 
-const excludes = ['index', 'test']
+const excludes = ['index', 'test', 'visual']
 function isInExcludes (path) {
   let reg = generateMultiItemsRegExp(excludes)
   return reg.test(path)

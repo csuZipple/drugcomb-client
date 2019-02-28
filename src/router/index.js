@@ -27,6 +27,11 @@ const router = new Router({
       component: () => import('../views/Test/Test2')
     },
     {
+      path: '/visual',
+      name: 'visual',
+      component: () => import('../views/Test/Visualization')
+    },
+    {
       path: '/*',
       redirect: {
         name: 'test1'
