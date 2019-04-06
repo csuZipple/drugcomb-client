@@ -3,12 +3,10 @@ import {store} from '../store'
 
 const loading = {
   show (msg) {
-    console.log('show loading')
     store.dispatch('status/setRequestLoading', true)
     store.dispatch('status/setRequestLoadingText', msg || '加载中')
   },
   hide (msg) {
-    console.log('hide loading')
     store.dispatch('status/setRequestLoading', false)
     store.dispatch('status/setRequestLoadingText', msg || '')
   }

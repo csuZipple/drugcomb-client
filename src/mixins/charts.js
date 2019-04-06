@@ -9,7 +9,7 @@ export const charts = {
       default: 500
     },
     data: {
-      type: Object
+      type: [Object, Array]
     }
   },
   methods: {

@@ -14,3 +14,7 @@ export const getDrugCombPagination = (tableIndex, page, size) => {
     retryDelay: 1000
   })
 }
+
+export const getDrugKVByBlockId = (tableIndex, blockId) => {
+  return axios.get(`/convert/origin/${tableIndex}/drugKV/${blockId}`)
+}
