@@ -1,16 +1,16 @@
 <template>
   <div>
     <div id="container">
-      <BarChart/>
+      <LineChart/>
     </div>
   </div>
 </template>
 
 <script>
-import BarChart from '../../components/Visualization/BarChart'
+import LineChart from '../../components/Visualization/LineChart'
 export default {
   name: 'Visualization',
-  components: {BarChart}
+  components: {LineChart}
 }
 </script>
 
