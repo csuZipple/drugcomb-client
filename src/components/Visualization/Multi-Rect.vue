@@ -1,5 +1,13 @@
 <template>
-  <div class="multi-rect"></div>
+  <div>
+    <div class="multi-rect">
+
+    </div>
+
+    <div>
+      Save as <button class="primary">PNG</button> <button class="success">JPEG</button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -124,5 +132,46 @@ export default {
 </script>
 
 <style scoped>
-
+  .success{
+    color: #fff;
+    background-color: #19be6b;
+    border-color: #19be6b;
+  }
+  .success:active{
+    background-color: #09be68;
+    border-color: #09be68;
+  }
+  .primary{
+    color: #fff;
+    background-color: #2d8cf0;
+    border-color: #2d8cf0;
+  }
+  .primary:active{
+    background-color: #2b85e4;
+    border-color: #2b85e4;
+  }
+  button{
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 5px 15px 6px;
+    font-size: 12px;
+    border-radius: 4px;
+    transition: color .2s linear,background-color .2s linear,border .2s linear,box-shadow .2s linear;
+    color: #515a6e;
+    background: #fff none;
+    border: 1px solid #dcdee2;
+  }
+  button:focus{
+    outline: none;
+  }
 </style>

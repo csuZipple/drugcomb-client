@@ -34,7 +34,7 @@ const router = new Router({
     {
       path: '/*',
       redirect: {
-        name: 'test1'
+        name: 'main'
       }
     }
   ]
