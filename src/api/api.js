@@ -1,5 +1,9 @@
 import {axios} from '../axios/api.request'
 
+export const getTableNames = () => {
+  return axios.get(`/convert/tables`)
+}
+
 export const getOriginName = (tableIndex) => {
   return axios.get(`/convert/origin/${tableIndex}`)
 }
@@ -17,4 +21,8 @@ export const getDrugCombPagination = (tableIndex, page, size) => {
 
 export const getDrugKVByBlockId = (tableIndex, blockId) => {
   return axios.get(`/convert/origin/${tableIndex}/drugKV/${blockId}`)
+}
+
+export const getDrugKVDetailsByBlockId = (tableIndex, blockId) => {
+  return axios.get(`/convert/origin/${tableIndex}/drugCombination/${blockId}`)
 }

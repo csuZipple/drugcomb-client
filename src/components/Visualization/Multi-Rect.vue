@@ -5,13 +5,14 @@
     </div>
 
     <div>
-      Save as <button class="primary">PNG</button> <button class="success">JPEG</button>
+      Save as <button class="primary" @click="saveAsPNG">PNG</button> <button class="success" @click="saveAsJPEG">JPEG</button>
     </div>
   </div>
 </template>
 
 <script>
 import {charts} from '../../mixins/charts'
+import {covertSVG2Image} from '../../utils/download'
 import * as d3 from 'd3'
 export default {
   name: 'Multi-Rect',
@@ -126,6 +127,12 @@ export default {
         }
         return ret
       })
+    },
+    saveAsPNG () {
+      covertSVG2Image(document.querySelector('.multi-rect').querySelector('svg'), this.data[0].drugRowName + '-' + this.data[0].drugColName, this.width, this.height)
+    },
+    saveAsJPEG () {
+      covertSVG2Image(document.querySelector('.multi-rect').querySelector('svg'), this.data[0].drugRowName + '-' + this.data[0].drugColName, this.width, this.height, 'jpeg')
     }
   }
 }
