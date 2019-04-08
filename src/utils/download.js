@@ -23,5 +23,7 @@ export const covertSVG2Image = (node, name, width, height, type = 'png') => {
     a.download = `${name}.${type}`
     a.href = canvas.toDataURL(`image/${type}`)
     a.click()
+    document.removeChild(a)
+    document.removeChild(canvas)
   }
 }
