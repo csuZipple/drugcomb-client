@@ -32,6 +32,11 @@ const router = new Router({
       component: () => import('../views/Test/Visualization')
     },
     {
+      path: '/main',
+      name: 'main',
+      component: () => import('../views/main/main')
+    },
+    {
       path: '/*',
       redirect: {
         name: 'main'
