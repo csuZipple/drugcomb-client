@@ -21,6 +21,10 @@ export default {
       default () {
         return []
       }
+    },
+    unit: {
+      type: String,
+      default: '条/页'
     }
   },
   methods: {
@@ -40,7 +44,6 @@ export default {
   data () {
     return {
       current: 0,
-      unit: '条/页',
       showOpt: false
     }
   },
