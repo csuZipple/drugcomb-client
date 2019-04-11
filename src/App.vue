@@ -42,10 +42,11 @@ export default {
 <style>
 @import "assets/style/reset.css";
 #app {
+  height: 100%;
+  min-height: 100%;
   font-family: Georgia, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
 </style>

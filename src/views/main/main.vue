@@ -1,14 +1,16 @@
 <template>
-  <div>
-    <DgHeader :current="0"/>
-  </div>
+  <FullPage>
+
+    <div>这是首页</div>
+
+  </FullPage>
 </template>
 
 <script>
-import DgHeader from '../../components/Header/DgHeader'
+import FullPage from '../../components/FullPage/FullPage'
 export default {
   name: 'home',
-  components: {DgHeader}
+  components: {FullPage}
 }
 </script>
 
