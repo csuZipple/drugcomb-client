@@ -20,6 +20,7 @@ export default {
           type: 'warn',
           text: '请输入合法的页数'
         })
+        e.target.value = ''
       }
     }
   }

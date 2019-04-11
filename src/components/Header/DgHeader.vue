@@ -14,12 +14,6 @@
 <script>
 export default {
   name: 'DgHeader',
-  props: {
-    current: {
-      type: Number,
-      default: 0
-    }
-  },
   methods: {
     handlePageClick (index) {
       const path = this.headerPageLink[index]
@@ -39,6 +33,11 @@ export default {
       headerTextList: ['Introduction', 'Response', 'SynergyScore', 'Download', 'Tutorial', 'Api'],
       headerPageLink: ['/main', '/response', '/synergyScore', '/download', '/tutorial', '/api'],
       keyword: ''
+    }
+  },
+  computed: {
+    current () {
+      return this.headerPageLink.indexOf(this.$route.path)
     }
   }
 }

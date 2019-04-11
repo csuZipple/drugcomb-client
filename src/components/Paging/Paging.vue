@@ -2,8 +2,10 @@
   <div class="page-container">
     <span v-if="showTotal">共 {{total}} 条</span>
     <Cell :title="'上一页'" :disabled="current===1" @click.native="current > 1 && $emit('pageClick', current - 1)">&lt;</Cell><Cell v-for="(item, index) in groupList" :key="index" :active="item === current" :disabled="item==='...'" @click.native="item !== current && item !== '...' && $emit('pageClick', item)">{{item}}</Cell><Cell :title="'下一页'" :disabled="current===page" @click.native="current < page && $emit('pageClick', current + 1)">&gt;</Cell>
+    &nbsp;&nbsp;
     <Elevator @changeTo="$emit('changePage', $event)" v-if="showElevator"/>
-    <Options :options="pageSizeOpts" @pageSizeChange="pageSizeChange"/>
+    &nbsp;&nbsp;
+    <Options :options="pageSizeOpts" @optionsChange="pageSizeChange"/>
   </div>
 </template>
 

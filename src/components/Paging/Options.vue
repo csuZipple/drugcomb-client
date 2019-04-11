@@ -37,7 +37,7 @@ export default {
       if (index !== this.current) {
         this.current = index
         this.showOpt = false
-        this.$emit('pageSizeChange', this.options[index])
+        this.$emit('optionsChange', this.options[index])
       }
     }
   },

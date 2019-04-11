@@ -11,11 +11,20 @@ export const getOriginName = (tableIndex) => {
 export const getDrugCombPagination = (tableIndex, page, size) => {
   return axios.get(`/convert/origin/${tableIndex}/page`, {
     params: {
-      page: page,
-      size: size
+      page,
+      size
     },
     retry: 1, // 设置超时重发
     retryDelay: 1000
+  })
+}
+
+export const getDrugKVPagination = (tableIndex, page, size) => {
+  return axios.get(`/convert/origin/${tableIndex}/drugKV`, {
+    params: {
+      page,
+      size
+    }
   })
 }
 

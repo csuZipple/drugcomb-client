@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import {store} from '../store'
 import {prefixPath} from '../config/PathConfig'
-import {checkAuth} from '../auth/auth'
+// import {checkAuth} from '../auth/auth'
 Vue.use(Router)
 
 const router = new Router({
@@ -37,6 +37,15 @@ const router = new Router({
       component: () => import('../views/main/main')
     },
     {
+      path: '/response',
+      name: 'response',
+      component: () => import('../views/response/response')
+    }, {
+      path: '/synergyScore',
+      name: 'synergyScore',
+      component: () => import('../views/synergyScore/synergyScore')
+    },
+    {
       path: '/*',
       redirect: {
         name: 'main'
@@ -52,11 +61,13 @@ router.beforeEach((to, from, next) => {
     typeof cancel === 'function' && cancel(`取消数据加载请求`)
   })
   if (requestList.length) store.dispatch('status/clearRequestQueue')
-  if (checkAuth(to)) {
-    next()
-  } else {
-    // Todo: 权限不够跳转
-  }
+  next()
+  // 不做权限验证
+  // if (checkAuth(to)) {
+  //   next()
+  // } else {
+  //   // Todo: 权限不够跳转
+  // }
 })
 
 export default router

@@ -9,7 +9,7 @@
       </th>
     </tr>
     <tr v-for="(row, index) in body" :key="index">
-      <td :class="{'link': headerLinkKeys.includes(key)}" v-for="(col, key) in row" :key="key+ 'a' +index" @click="handleItemClick(col, headerLinkKeys.includes(key))">{{col}}</td>
+      <td :class="{'link': headerLinkKeys.includes(key)}" v-for="(col, key) in row" :key="key+ 'a' +index" @click="handleItemClick(col, headerLinkKeys.includes(key))">{{col ? col : 'Null'}}</td>
     </tr>
   </table>
 </template>
@@ -67,33 +67,35 @@ export default {
 
 <style lang="less" scoped>
   @import "../../assets/style/main";
+  @table-color: #f7f7f7;
+  @table-border-color: #dadde3;
   table{
     font-family: Consolas,Menlo,Courier,monospace;
     font-size: 12px;
     border-collapse: collapse;
     border-spacing: 0;
     empty-cells: show;
-    border: 1px solid #e9e9e9;
+    border: 1px solid @table-border-color;
     width: 100%;
     margin-bottom: 24px;
     tr,td{
       transition: all 0.3s;
     }
     tr:hover{
-      background: #f7f7f7;
+      background: @table-color;
       &>td{
-        border-color: #f7f7f7;
+        border-color: @table-color;
       }
     }
     th{
-      background: #f7f7f7;
-      white-space: nowrap;
+      background: @table-color;
       color: #5c6b77;
       font-weight: 600;
       cursor: default;
+      text-transform: uppercase;
     }
     th,td{
-      border: 1px solid #e9e9e9;
+      border: 1px solid @table-border-color;
       padding: 8px 16px;
       text-align: left;
     }
@@ -110,8 +112,12 @@ export default {
       width: 100%;
       height: 100%;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
+
+      img{
+        margin-left: 5px;
+      }
     }
   }
 

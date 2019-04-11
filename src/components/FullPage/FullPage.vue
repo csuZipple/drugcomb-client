@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <DgHeader class="header" :current="currentHeaderIndex"/>
+    <DgHeader class="header"/>
     <main class="main">
       <slot></slot>
     </main>
@@ -13,13 +13,7 @@ import DgHeader from '../Header/DgHeader'
 import DgFooter from '../Footer/DgFooter'
 export default {
   name: 'FullPage',
-  components: {DgFooter, DgHeader},
-  props: {
-    currentHeaderIndex: {
-      type: Number,
-      default: 0
-    }
-  }
+  components: {DgFooter, DgHeader}
 }
 </script>
 
