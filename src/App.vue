@@ -44,7 +44,7 @@ export default {
 #app {
   height: 100%;
   min-height: 100%;
-  font-family: Georgia, serif;
+  font-family: Montserrat,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

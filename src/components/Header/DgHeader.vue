@@ -5,7 +5,7 @@
         <div :class="{'tab-active': current === index}" v-for="(item, index) in headerTextList" :key="index" @click="handlePageClick(index)">{{item}}</div>
       </div>
       <div class="search-wrapper">
-        <input v-model="keyword" type="text" title="search" placeholder="Search Drug">
+        <input v-model="keyword" type="text" title="search" placeholder="Search Drug ...">
         <button @click="handleSearch">Search</button>
       </div>
     </header>
@@ -99,6 +99,11 @@ export default {
         border-radius: 5px;
         border: 1px solid @border-color;
         margin-right: 5px;
+
+        &:focus{
+          border-color: @input-focus-color;
+          box-shadow: 0 0 0 2px rgba(45,140,240,.2);
+        }
       }
       button{
         .btn();
