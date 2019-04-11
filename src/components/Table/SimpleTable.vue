@@ -9,7 +9,7 @@
       </th>
     </tr>
     <tr v-for="(row, index) in body" :key="index">
-      <td :class="{'link': headerLinkKeys.includes(key)}" v-for="(col, key) in row" :key="key+ 'a' +index" @click="handleItemClick(col, headerLinkKeys.includes(key))">{{col ? col : 'Null'}}</td>
+      <td :class="{'link': headerLinkKeys.includes(key)}" v-for="(col, key) in row" :key="key+ 'a' +index" @click="handleItemClick(col, headerLinkKeys.includes(key), key, body[index])">{{col ? col : Number(col) === 0 ? 0 :'Null'}}</td>
     </tr>
   </table>
 </template>
@@ -38,22 +38,21 @@ export default {
     }
   },
   methods: {
-    handleItemClick (col, flag) {
+    handleItemClick (col, flag, key, entity) {
       if (flag) {
-        this.$emit('itemClicked', col)
+        this.$emit('itemClicked', col, key, entity)
       }
     },
     sortData (key, flag) {
       if (flag) {
-        if (this.body[0][key] <= this.body[1][key]) {
-          this.$emit('sort', this.body.sort((pre, next) => {
-            return next[key] - pre[key]
-          }))
-        } else {
-          this.$emit('sort', this.body.sort((pre, next) => {
-            return pre[key] - next[key]
-          }))
+        const oldArray = JSON.parse(JSON.stringify(this.body))
+        this.body.sort((pre, next) => {
+          return next[key] - pre[key]
+        })
+        if (JSON.stringify(oldArray) === JSON.stringify(this.body)) {
+          this.body.reverse()
         }
+        this.$emit('sort', this.body)
       }
     }
   },
