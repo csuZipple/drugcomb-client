@@ -30,8 +30,8 @@ export default {
   },
   data () {
     return {
-      headerTextList: ['Introduction', 'Response', 'SynergyScore', 'Download', 'Tutorial', 'Api'],
-      headerPageLink: ['/main', '/response', '/synergyScore', '/download', '/tutorial', '/api'],
+      headerTextList: ['Introduction', 'Combination', 'Download', 'Tutorial', 'Api'],
+      headerPageLink: ['/main', '/synergyScore', '/download', '/tutorial', '/api'],
       keyword: ''
     }
   },

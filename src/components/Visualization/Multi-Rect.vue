@@ -4,7 +4,7 @@
 
     </div>
 
-    <div>
+    <div style="margin-top: 10px;">
       Save as <button class="primary" @click="saveAsPNG">PNG</button> <button class="success" @click="saveAsJPEG">JPEG</button>
     </div>
   </div>
@@ -17,10 +17,14 @@ import * as d3 from 'd3'
 export default {
   name: 'Multi-Rect',
   mixins: [charts],
+  props: {
+    data: {
+      type: Array
+    }
+  },
   mounted () {
     // 数据应当从后台获取
-    let data = this.data
-    data = this.sort(data)
+    let data = this.sort(this.data)
     const canvas = this.initChart(d3, '.multi-rect')
     const colorScale = d3.scaleLinear().domain([0, Math.max.apply(null, data.map(item => item.response))]).range(['red', '#002000'])
     const width = this.width - 70

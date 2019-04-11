@@ -27,7 +27,7 @@ export default {
     linkIndexList: {
       type: Array,
       default () {
-        return [4, 5]
+        return []
       }
     },
     body: {

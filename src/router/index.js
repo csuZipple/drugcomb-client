@@ -37,7 +37,8 @@ const router = new Router({
       component: () => import('../views/main/main')
     },
     {
-      path: '/response',
+      path: '/response/:tableIndex/:blockId',
+      props: true,
       name: 'response',
       component: () => import('../views/response/response')
     }, {

@@ -35,3 +35,7 @@ export const getDrugKVByBlockId = (tableIndex, blockId) => {
 export const getDrugKVDetailsByBlockId = (tableIndex, blockId) => {
   return axios.get(`/convert/origin/${tableIndex}/drugCombination/${blockId}`)
 }
+
+export const getDrugInfoByDrugName = name => {
+  return axios.get(`/chemical/info/${name}`)
+}
