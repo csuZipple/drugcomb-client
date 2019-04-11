@@ -33,6 +33,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import "../../assets/style/main";
   .table-cell{
     user-select: none;
     min-width: 32px;
@@ -52,19 +53,19 @@ export default {
     align-items: center;
 
     &:hover{
-      border-color: #2d8cf0;
-      color: #2d8cf0;
+      border-color: @theme-color;
+      color: @theme-color;
     }
     &-active{
-      border-color: #2d8cf0;
-      color: #2d8cf0;
+      border-color: @theme-color;
+      color: @theme-color;
     }
     &-disabled{
       cursor: not-allowed;
       color: #666 !important;
     }
     &-disabled:hover{
-      border-color: #dcdee2;
+      border-color: @border-color;
     }
   }
 </style>

@@ -66,6 +66,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import "../../assets/style/main";
   table{
     font-family: Consolas,Menlo,Courier,monospace;
     font-size: 12px;
@@ -98,7 +99,7 @@ export default {
     }
 
     .link{
-      color: #2d8cf0;
+      color: @theme-color;
       cursor: default;
       &:hover{
         text-decoration: underline;

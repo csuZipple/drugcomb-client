@@ -57,6 +57,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import "../../assets/style/main";
   .page-opt{
     display: inline-block;
     height: 32px;
@@ -81,8 +82,8 @@ export default {
       }
 
       &:hover{
-        border-color: #2d8cf0;
-        color: #2d8cf0;
+        border-color: @theme-color;
+        color: @theme-color;
       }
     }
     .opt{
@@ -116,8 +117,8 @@ export default {
           background: #f3f3f3;
         }
         &-active{
-          color: #2d8cf0;
-          background: #f3f3f3;
+          color: @theme-color;
+          background: @body-color;
         }
       }
     }

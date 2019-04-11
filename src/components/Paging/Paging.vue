@@ -102,9 +102,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import "../../assets/style/main";
   .page-container{
     font-size: 12px;
-    color: #515a6e;
+    color: @font-color;
 
     &>span{
       margin-right: 10px;

@@ -27,6 +27,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import "../../assets/style/main";
   .page-elevator{
     display: inline-block;
     vertical-align: middle;
@@ -51,7 +52,7 @@ export default {
       width: 50px;
 
       &:focus{
-        border-color: #57a3f3;
+        border-color: @border-color;
         outline: 0;
         box-shadow: 0 0 0 2px rgba(45,140,240,.2);
       }

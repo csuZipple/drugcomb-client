@@ -14,5 +14,6 @@ export function checkAuth (to) {
     return true
   } else {
     // 这里判断权限
+    console.log('鉴权失败..')
   }
 }

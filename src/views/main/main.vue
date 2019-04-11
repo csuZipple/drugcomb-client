@@ -1,10 +1,14 @@
 <template>
-  <div>main page</div>
+  <div>
+    <DgHeader :current="0"/>
+  </div>
 </template>
 
 <script>
+import DgHeader from '../../components/Header/DgHeader'
 export default {
-  name: 'home'
+  name: 'home',
+  components: {DgHeader}
 }
 </script>
 
