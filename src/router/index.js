@@ -45,6 +45,18 @@ const router = new Router({
       path: '/synergyScore',
       name: 'synergyScore',
       component: () => import('../views/synergyScore/synergyScore')
+    }, {
+      path: '/download',
+      name: 'download',
+      component: () => import('../views/download/download')
+    }, {
+      path: '/tutorial',
+      name: 'tutorial',
+      component: () => import('../views/tutorial/tutorial')
+    }, {
+      path: '/api',
+      name: 'api',
+      component: () => import('../views/api/api')
     },
     {
       path: '/*',
