@@ -13,12 +13,14 @@
       <HeaderTitle>
         Drug Combination Blocks
       </HeaderTitle>
-      <div class="content" v-if="tableData.length">
+      <div class="content">
         <div style="padding: 10px; color: green;font-family: Georgia,serif; font-style: italic;">
           <Search :value="keyword" @search="handleSearch"/>
         </div>
-        <SimpleTable :header="Object.keys(tableData[0])" :body="tableData" :linkIndexList="[0,1,2,3]" @itemClicked="handleItemClicked"/>
-        <Page show-elevator show-total  @pageClick="handleChangePage" :total="total" :current="pageNum" :page-size="pageSize" @changePage="handleChangePage" @pageSizeChange="handlePageSizeChange"/>
+        <template v-if="tableData.length">
+          <SimpleTable :header="Object.keys(tableData[0])" :body="tableData" :linkIndexList="[0,1,2,3]" @itemClicked="handleItemClicked"/>
+          <Page show-elevator show-total  @pageClick="handleChangePage" :total="total" :current="pageNum" :page-size="pageSize" @changePage="handleChangePage" @pageSizeChange="handlePageSizeChange"/>
+        </template>
       </div>
     </section>
   </FullPage>
