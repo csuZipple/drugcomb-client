@@ -4,39 +4,21 @@
       <HeaderTitle>
         Drug Info
       </HeaderTitle>
-      <div class="content drug-info-wrapper" v-if="drugInfoList.length">
-        <div class="drug-info" v-for="(item, index) in drugInfoList" :key="index">
-          <img :src="item['originImgUrl']"/>
-          <div class="item">
-            <div class="tag">CIDs</div>
-            <div class="text">
-              <a :href="'https://pubchem.ncbi.nlm.nih.gov/compound/'+ item['cIds']" target="_blank">{{item['cIds']}}</a>
-            </div>
-          </div>
-          <div class="item">
-            <div class="tag">DrugName</div>
-            <div class="text">
-              {{item['drugName']}}
-            </div>
-          </div>
-          <div class="item">
-            <div class="tag">DrugNameOfficial</div>
-            <div class="text">
-              {{item['drugNameOfficial']}}
-            </div>
-          </div>
-          <div class="item">
-            <div class="tag">MolecularWeight</div>
-            <div class="text">
-              {{item['molecularWeight']}}
-            </div>
-          </div>
-          <div class="item">
-            <div class="tag">SmilesString</div>
-            <div class="text">
-              {{item['smilesString']}}
-            </div>
-          </div>
+      <div class="drug-info">
+          <table v-if="drugInfoList.length">
+            <tr><th>DrugName</th><td>{{drugInfoList[0]['drugName']}}</td><td>{{drugInfoList[1]['drugName']}}</td></tr>
+            <tr><th>ChemicalStructure</th><td><img :src="drugInfoList[0]['originImgUrl']" alt=""/></td><td><img :src="drugInfoList[1]['originImgUrl']" alt=""/></td></tr>
+            <tr><th>NCI</th><td><a :href="'https://pubchem.ncbi.nlm.nih.gov/compound/'+drugInfoList[0]['cIds']">{{drugInfoList[0]['cIds']}}</a></td><td><a :href="'https://pubchem.ncbi.nlm.nih.gov/compound/'+drugInfoList[1]['cIds']">{{drugInfoList[1]['cIds']}}</a></td></tr>
+            <tr><th>OfficialName</th><td>{{drugInfoList[0]['drugNameOfficial']}}</td><td>{{drugInfoList[1]['drugNameOfficial']}}</td></tr>
+            <tr><th>MolecularWeight</th><td>{{drugInfoList[0]['molecularWeight']}}</td><td>{{drugInfoList[1]['molecularWeight']}}</td></tr>
+            <tr><th>SmilesString</th><td>{{drugInfoList[0]['smilesString']}}</td><td>{{drugInfoList[1]['smilesString']}}</td></tr>
+          </table>
+
+        <div>
+          <p>CellLine</p>
+          <ul v-if="cellLine">
+            <li v-for="(value ,key) in cellLine" :key="key">{{key}} : {{value ? value : "Null"}}</li>
+          </ul>
         </div>
       </div>
       <HeaderTitle>
@@ -60,7 +42,7 @@
 <script>
 import FullPage from '../../components/FullPage/FullPage'
 import HeaderTitle from '../../components/Header/HeaderTitle'
-import {getDrugKVByBlockId, getDrugInfoByDrugName} from '../../api/api'
+import {getDrugKVByBlockId, getDrugInfoByDrugName, getDrugCombinationCellLine} from '../../api/api'
 import SimpleTable from '../../components/Table/SimpleTable'
 import MultiRect from '../../components/Visualization/Multi-Rect'
 export default {
@@ -71,10 +53,14 @@ export default {
     return {
       drugInfoList: [],
       tableData: [],
+      cellLine: null,
       showTable: true
     }
   },
   mounted () {
+    getDrugCombinationCellLine(this.tableIndex, this.blockId).then(data => {
+      this.cellLine = data
+    })
     getDrugKVByBlockId(this.tableIndex, this.blockId).then(data => {
       this.tableData = data
       return data
@@ -102,23 +88,24 @@ export default {
       margin-bottom: 10px;
     }
 
-    .drug-info-wrapper{
-      padding: 10px 0;
+    .drug-info{
       display: flex;
-      justify-content: space-between;
-      .drug-info{
-        width: 50%;
-        .item{
-          display: flex;
-          justify-content: space-between;
-
-          &>div{
-            padding: 5px;
-          }
-          .tag{
-            background: #666;
+      justify-content: flex-start;
+      table{
+        th{
+          text-align: right;
+        }
+        th,td{
+          padding: 10px;
+          img{
+            height: 150px;
+            object-fit: contain;
           }
         }
+      }
+
+      ul{
+        margin-left: 50px;
       }
     }
 

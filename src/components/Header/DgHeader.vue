@@ -4,10 +4,6 @@
         <img class="logo" src="../../assets/logo.png" alt="" @click="$router.push({path: `/main`})">
         <div :class="{'tab-active': current === index}" v-for="(item, index) in headerTextList" :key="index" @click="handlePageClick(index)">{{item}}</div>
       </div>
-      <div class="search-wrapper">
-        <input v-model="keyword" type="text" title="search" placeholder="Search Drug ...">
-        <button @click="handleSearch">Search</button>
-      </div>
     </header>
 </template>
 
@@ -20,19 +16,12 @@ export default {
       this.$router.push({
         path
       })
-    },
-    handleSearch () {
-      const keyword = this.keyword
-      this.$router.push({
-        path: '/search/' + encodeURIComponent(keyword)
-      })
     }
   },
   data () {
     return {
       headerTextList: ['Introduction', 'Combination', 'Download', 'Tutorial', 'Api'],
-      headerPageLink: ['/main', '/synergyScore', '/download', '/tutorial', '/api'],
-      keyword: ''
+      headerPageLink: ['/main', '/synergyScore', '/download', '/tutorial', '/api']
     }
   },
   computed: {
@@ -88,25 +77,6 @@ export default {
       }
       .tab-active{
         color: @theme-color;
-      }
-    }
-
-    .search-wrapper{
-      input{
-        height: 50%;
-        padding: 0 12px;
-        border-radius: 5px;
-        border: 1px solid @border-color;
-        margin-right: 5px;
-
-        &:focus{
-          border-color: @input-focus-color;
-          box-shadow: 0 0 0 2px rgba(45,140,240,.2);
-        }
-      }
-      button{
-        .btn();
-        height: 50%;
       }
     }
   }

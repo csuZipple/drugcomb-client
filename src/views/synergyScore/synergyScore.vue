@@ -15,7 +15,7 @@
       </HeaderTitle>
       <div class="content" v-if="tableData.length">
         <div style="padding: 10px; color: green;font-family: Georgia,serif; font-style: italic;">
-          // Todo: Add search component here
+          <Search :value="keyword" @search="handleSearch"/>
         </div>
         <SimpleTable :header="Object.keys(tableData[0])" :body="tableData" :linkIndexList="[0,1,2,3]" @itemClicked="handleItemClicked"/>
         <Page show-elevator show-total  @pageClick="handleChangePage" :total="total" :current="pageNum" :page-size="pageSize" @changePage="handleChangePage" @pageSizeChange="handlePageSizeChange"/>
@@ -28,13 +28,20 @@
 import FullPage from '../../components/FullPage/FullPage'
 import HeaderTitle from '../../components/Header/HeaderTitle'
 import Options from '../../components/Paging/Options'
-import {getTableNames, getDrugKVPagination} from '../../api/api'
+import {getTableNames, getDrugKVPagination, searchDrugPages} from '../../api/api'
 import SimpleTable from '../../components/Table/SimpleTable'
 import Page from '../../components/Paging/Paging'
+import Search from '../../components/Header/Search'
 export default {
   name: 'synergyScore',
-  components: {Page, SimpleTable, Options, HeaderTitle, FullPage},
+  components: {Search, Page, SimpleTable, Options, HeaderTitle, FullPage},
   methods: {
+    handleSearch (keyword) {
+      if (keyword !== this.keyword) {
+        this.keyword = keyword
+        this.updateTableData()
+      }
+    },
     handleOptionsChange (table) {
       this.tableIndex = this.tables.indexOf(table) + 1
     },
@@ -45,15 +52,30 @@ export default {
         if (key === 'drugCombination') {
           this.$router.push(`/response/${this.tableIndex}/${obj.pairIndex}`)
         } else {
-          // Drug
+          this.handleSearch(col.trim())
         }
       }
     },
     updateTableData () {
-      getDrugKVPagination(this.tableIndex, this.pageNum, this.pageSize).then(data => {
-        this.tableData = data.page
-        this.total = data.total
-      })
+      if (this.keyword === '') {
+        getDrugKVPagination(this.tableIndex, this.pageNum, this.pageSize).then(data => {
+          if (data.total) {
+            this.tableData = data.page
+            this.total = data.total
+          } else {
+            this.$message('Not Found')
+          }
+        })
+      } else {
+        searchDrugPages(this.tableIndex, this.keyword, this.pageNum, this.pageSize).then(data => {
+          if (data.total) {
+            this.tableData = data.page
+            this.total = data.total
+          } else {
+            this.$message('Not Found')
+          }
+        })
+      }
     },
     handleChangePage (index) {
       this.pageNum = index > this.total ? this.total : Number(index)
@@ -76,7 +98,8 @@ export default {
       tableData: [],
       total: -1,
       pageNum: 1,
-      pageSize: 10
+      pageSize: 10,
+      keyword: ''
     }
   },
   watch: {

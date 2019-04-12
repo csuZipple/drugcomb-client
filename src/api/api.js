@@ -39,3 +39,17 @@ export const getDrugKVDetailsByBlockId = (tableIndex, blockId) => {
 export const getDrugInfoByDrugName = name => {
   return axios.get(`/chemical/info/${name}`)
 }
+
+export const getDrugCombinationCellLine = (tableIndex, blockId) => {
+  return new Promise((resolve, reject) => {
+    getDrugKVDetailsByBlockId(tableIndex, blockId).then(data => {
+      return data
+    }).then(data => {
+      resolve(axios.get(`/convert/cellline/${data.cellName}`))
+    })
+  })
+}
+
+export const searchDrugPages = (tableIndex, drugName, page, size) => {
+  return axios.get(`/convert/origin/${tableIndex}/searchDrugCombinationPages?q=${encodeURIComponent(drugName)}&page=${page}&size=${size}`)
+}

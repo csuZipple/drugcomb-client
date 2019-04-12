@@ -4,7 +4,7 @@ import {store} from '../store'
 const loading = {
   show (msg) {
     store.dispatch('status/setRequestLoading', true)
-    store.dispatch('status/setRequestLoadingText', msg || '加载中')
+    store.dispatch('status/setRequestLoadingText', msg || 'Loading...')
   },
   hide (msg) {
     store.dispatch('status/setRequestLoading', false)

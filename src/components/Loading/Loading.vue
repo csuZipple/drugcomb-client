@@ -24,7 +24,7 @@ export default {
     },
     text: {
       type: String,
-      default: '加载中...'
+      default: 'Loading...'
     },
     duration: {
       type: String,
