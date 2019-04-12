@@ -29,6 +29,7 @@ export default {
       border-radius: 5px;
       border: 1px solid @border-color;
       margin-right: 5px;
+      transition: all 0.3s;
 
       &:focus{
         border-color: @input-focus-color;

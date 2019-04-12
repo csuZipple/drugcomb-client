@@ -53,7 +53,7 @@ export default {
       width: 50px;
 
       &:focus{
-        border-color: @border-color;
+        border-color: @input-focus-color;
         outline: 0;
         box-shadow: 0 0 0 2px rgba(45,140,240,.2);
       }
