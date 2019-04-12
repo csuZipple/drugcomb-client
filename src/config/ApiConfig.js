@@ -1,5 +1,5 @@
 const devUrl = 'http://localhost:8080/'
-const productUrl = 'http://project.sumixer.com/api'
+const productUrl = 'http://drugcombdb.denglab.org:8080/'
 const baseUrl = process.env.NODE_ENV === 'development' ? devUrl : productUrl
 export const ApiConfig = {
   baseURL: baseUrl,
