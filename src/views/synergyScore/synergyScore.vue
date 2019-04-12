@@ -78,7 +78,7 @@ export default {
       }
     },
     handleChangePage (index) {
-      this.pageNum = index > this.total ? this.total : Number(index)
+      this.pageNum = index > Math.ceil(this.total / this.pageSize) ? Math.ceil(this.total / this.pageSize) : Number(index)
     },
     handlePageSizeChange (current, size) {
       this.pageNum = current
