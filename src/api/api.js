@@ -1,15 +1,7 @@
 import {axios} from '../axios/api.request'
 
-export const getTableNames = () => {
-  return axios.get(`/convert/tables`)
-}
-
-export const getOriginName = (tableIndex) => {
-  return axios.get(`/convert/origin/${tableIndex}`)
-}
-
-export const getDrugCombPagination = (tableIndex, page, size) => {
-  return axios.get(`/convert/origin/${tableIndex}/page`, {
+export const getDrugCombPagination = (page, size) => {
+  return axios.get(`/combination/list`, {
     params: {
       page,
       size
@@ -19,8 +11,8 @@ export const getDrugCombPagination = (tableIndex, page, size) => {
   })
 }
 
-export const getDrugKVPagination = (tableIndex, page, size) => {
-  return axios.get(`/convert/origin/${tableIndex}/drugKV`, {
+export const getDrugIntegrationPages = (page, size) => {
+  return axios.get(`/integration/list`, {
     params: {
       page,
       size
@@ -28,28 +20,28 @@ export const getDrugKVPagination = (tableIndex, page, size) => {
   })
 }
 
-export const getDrugKVByBlockId = (tableIndex, blockId) => {
-  return axios.get(`/convert/origin/${tableIndex}/drugKV/${blockId}`)
+export const getIndividualDrugCombinationByBlockId = (blockId) => {
+  return axios.get(`/combination/list/${blockId}`)
 }
 
-export const getDrugKVDetailsByBlockId = (tableIndex, blockId) => {
-  return axios.get(`/convert/origin/${tableIndex}/drugCombination/${blockId}`)
+export const getIndividualDrugIntegrationByBlockId = (blockId) => {
+  return axios.get(`/integration/list/${blockId}`)
 }
 
 export const getDrugInfoByDrugName = name => {
   return axios.get(`/chemical/info/${name}`)
 }
 
-export const getDrugCombinationCellLine = (tableIndex, blockId) => {
+export const getCellLineInfoByBlockId = (blockId) => {
   return new Promise((resolve, reject) => {
-    getDrugKVDetailsByBlockId(tableIndex, blockId).then(data => {
+    getIndividualDrugIntegrationByBlockId(blockId).then(data => {
       return data
     }).then(data => {
-      resolve(axios.get(`/convert/cellline/${data.cellName}`))
+      resolve(axios.get(`/cellLine/cellName?q=${encodeURIComponent(data.cellName)}`))
     })
   })
 }
 
-export const searchDrugPages = (tableIndex, drugName, page, size) => {
-  return axios.get(`/convert/origin/${tableIndex}/searchDrugCombinationPages?q=${encodeURIComponent(drugName)}&page=${page}&size=${size}`)
+export const searchDrugPages = (drugName, page, size) => {
+  return axios.get(`/integration/search/${encodeURIComponent(drugName)}?page=${page}&size=${size}`)
 }

@@ -17,27 +17,12 @@ const router = new Router({
   },
   routes: [
     {
-      path: '/test1',
-      name: 'test1',
-      component: () => import('../views/Test/Test1')
-    },
-    {
-      path: '/test2',
-      name: 'test2',
-      component: () => import('../views/Test/Test2')
-    },
-    {
-      path: '/visual',
-      name: 'visual',
-      component: () => import('../views/Test/Visualization')
-    },
-    {
       path: '/main',
       name: 'main',
       component: () => import('../views/main/main')
     },
     {
-      path: '/response/:tableIndex/:blockId',
+      path: '/response/:blockId',
       props: true,
       name: 'response',
       component: () => import('../views/response/response')

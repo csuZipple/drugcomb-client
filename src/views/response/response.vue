@@ -42,13 +42,13 @@
 <script>
 import FullPage from '../../components/FullPage/FullPage'
 import HeaderTitle from '../../components/Header/HeaderTitle'
-import {getDrugKVByBlockId, getDrugInfoByDrugName, getDrugCombinationCellLine} from '../../api/api'
+import {getIndividualDrugCombinationByBlockId, getDrugInfoByDrugName, getCellLineInfoByBlockId} from '../../api/api'
 import SimpleTable from '../../components/Table/SimpleTable'
 import MultiRect from '../../components/Visualization/Multi-Rect'
 export default {
   name: 'response',
   components: {MultiRect, SimpleTable, HeaderTitle, FullPage},
-  props: ['blockId', 'tableIndex'],
+  props: ['blockId'],
   data () {
     return {
       drugInfoList: [],
@@ -58,10 +58,10 @@ export default {
     }
   },
   mounted () {
-    getDrugCombinationCellLine(this.tableIndex, this.blockId).then(data => {
+    getCellLineInfoByBlockId(this.blockId).then(data => {
       this.cellLine = data
     })
-    getDrugKVByBlockId(this.tableIndex, this.blockId).then(data => {
+    getIndividualDrugCombinationByBlockId(this.blockId).then(data => {
       this.tableData = data
       return data
     }).then(data => {

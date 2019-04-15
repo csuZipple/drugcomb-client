@@ -2,15 +2,6 @@
   <FullPage>
     <section>
       <HeaderTitle>
-        DataBase
-      </HeaderTitle>
-      <div class="content">
-        Change Data Source here. &nbsp; <Options :options="tables" unit="" @optionsChange="handleOptionsChange"/>
-      </div>
-    </section>
-
-    <section>
-      <HeaderTitle>
         Drug Combination Blocks
       </HeaderTitle>
       <div class="content">
@@ -30,7 +21,7 @@
 import FullPage from '../../components/FullPage/FullPage'
 import HeaderTitle from '../../components/Header/HeaderTitle'
 import Options from '../../components/Paging/Options'
-import {getTableNames, getDrugKVPagination, searchDrugPages} from '../../api/api'
+import {getDrugIntegrationPages, searchDrugPages} from '../../api/api'
 import SimpleTable from '../../components/Table/SimpleTable'
 import Page from '../../components/Paging/Paging'
 import Search from '../../components/Header/Search'
@@ -44,15 +35,12 @@ export default {
         this.updateTableData()
       }
     },
-    handleOptionsChange (table) {
-      this.tableIndex = this.tables.indexOf(table) + 1
-    },
     handleItemClicked (col, key, obj) {
       if (typeof col === 'number') {
-        this.$router.push(`/response/${this.tableIndex}/${col}`)
+        this.$router.push(`/response/${col}`)
       } else {
         if (key === 'drugCombination') {
-          this.$router.push(`/response/${this.tableIndex}/${obj.pairIndex}`)
+          this.$router.push(`/response/${obj.id}`)
         } else {
           this.handleSearch(col.trim())
         }
@@ -60,7 +48,7 @@ export default {
     },
     updateTableData () {
       if (this.keyword === '') {
-        getDrugKVPagination(this.tableIndex, this.pageNum, this.pageSize).then(data => {
+        getDrugIntegrationPages(this.pageNum, this.pageSize).then(data => {
           if (data.total) {
             this.tableData = data.page
             this.total = data.total
@@ -69,7 +57,7 @@ export default {
           }
         })
       } else {
-        searchDrugPages(this.tableIndex, this.keyword, this.pageNum, this.pageSize).then(data => {
+        searchDrugPages(this.keyword, this.pageNum, this.pageSize).then(data => {
           if (data.total) {
             this.tableData = data.page
             this.total = data.total
@@ -88,15 +76,11 @@ export default {
     }
   },
   mounted () {
-    getTableNames().then(data => {
-      this.tables = data
-      this.tableIndex = 1
-    })
+    this.updateTableData()
   },
   data () {
     return {
       tables: [],
-      tableIndex: -1,
       tableData: [],
       total: -1,
       pageNum: 1,
@@ -105,9 +89,6 @@ export default {
     }
   },
   watch: {
-    tableIndex () {
-      this.updateTableData()
-    },
     pageNum () {
       this.updateTableData()
     },
