@@ -44,7 +44,8 @@ export default {
 #app {
   height: 100%;
   min-height: 100%;
-  font-family: Montserrat,sans-serif;
+  /*font-family: Montserrat,sans-serif;*/
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Oxygen-Sans,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue","Source Sans Pro",sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

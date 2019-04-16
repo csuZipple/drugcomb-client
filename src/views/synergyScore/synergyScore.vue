@@ -76,6 +76,7 @@ export default {
     }
   },
   mounted () {
+    this.keyword = this.$route.query.q || this.keyword
     this.updateTableData()
   },
   data () {

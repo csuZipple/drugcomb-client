@@ -20,7 +20,7 @@ export default {
   },
   data () {
     return {
-      headerTextList: ['Introduction', 'Combination', 'Download', 'Tutorial', 'Api'],
+      headerTextList: ['Home', 'Combination', 'Download', 'Tutorial', 'Api'],
       headerPageLink: ['/main', '/synergyScore', '/download', '/tutorial', '/api']
     }
   },
@@ -52,6 +52,7 @@ export default {
       display: flex;
       justify-content: space-around;
       align-items: center;
+      font-weight: 500;
     }
 
     .tab-container{

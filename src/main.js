@@ -7,6 +7,9 @@ import {store} from './store'
 import Message from './plugins/message/message'
 Vue.use(Message)
 Vue.config.productionTip = false
+Vue.filter('toFixed', (value, number) => {
+  if (value || value === 0) return value.toFixed(number)
+})
 
 /* eslint-disable no-new */
 new Vue({
