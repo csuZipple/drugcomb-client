@@ -48,6 +48,10 @@
     <Dialog v-if="showResponseMatrix" @closeDialog="showResponseMatrix = false">
       <Response :blockId="blockId"/>
     </Dialog>
+    <Dialog v-if="showCellLineDialog" @closeDialog="showCellLineDialog = false">
+      <!--  Todo:收集细胞系的gene expressions    -->
+      <p>显示细胞系相关数据</p>
+    </Dialog>
   </FullPage>
 </template>
 
@@ -79,11 +83,10 @@ export default {
           this.$router.push(`/drugDetail?drugName=${encodeURIComponent(col.trim())}`)
           break
         case 'cellname':
-          console.log('点击细胞系弹窗')
+          this.showCellLineDialog = true
           break
         case 'synergyscore':
           this.blockId = obj.id
-          // console.log('弹出药物化学结构和相关信息')
           this.showResponseMatrix = true
           break
         default:
@@ -132,7 +135,8 @@ export default {
       pageSize: 10,
       keyword: '',
       blockId: -1,
-      showResponseMatrix: false
+      showResponseMatrix: false,
+      showCellLineDialog: false
     }
   },
   watch: {

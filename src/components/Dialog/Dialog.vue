@@ -1,5 +1,4 @@
 <template>
-<!-- Todo: 如何仅通过CSS给组件添加退场动画 -->
   <div class="mask" @click="closeDialog">
     <div class="dialog" @click.stop>
       <header>
