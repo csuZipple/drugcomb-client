@@ -1,5 +1,5 @@
 <template>
-  <div class="page-elevator">跳至 <input title="" @blur="handleBlur" @keyup.enter="handleBlur" type="text" autocomplete="off" spellcheck="false">页</div>
+  <div class="page-elevator">Jump to <input title="" @blur="handleBlur" @keyup.enter="handleBlur" type="text" autocomplete="off" spellcheck="false">page</div>
 </template>
 
 <script>

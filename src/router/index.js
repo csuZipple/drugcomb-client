@@ -20,16 +20,14 @@ const router = new Router({
       path: '/main',
       name: 'main',
       component: () => import('../views/main/main')
-    },
-    {
-      path: '/response/:blockId',
-      props: true,
-      name: 'response',
-      component: () => import('../views/response/response')
     }, {
       path: '/synergyScore',
       name: 'synergyScore',
       component: () => import('../views/synergyScore/synergyScore')
+    }, {
+      path: '/drugDetail',
+      name: 'drugDetail',
+      component: () => import('../views/drugDetail/drugDetail')
     }, {
       path: '/download',
       name: 'download',

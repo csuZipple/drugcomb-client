@@ -1,19 +1,53 @@
 <template>
   <FullPage>
-    <section>
-      <HeaderTitle>
-        Drug Combination Blocks
-      </HeaderTitle>
-      <div class="content">
-        <div style="padding: 10px; color: green;font-family: Georgia,serif; font-style: italic;">
-          <Search :value="keyword" @search="handleSearch"/>
+    <section class="synergy-score-container">
+      <div>
+        <HeaderTitle>
+          Drug-Combinations
+        </HeaderTitle>
+        <div class="content">
+          <div style="padding: 10px;">
+            <Search :value="keyword" @search="handleSearch"/>
+            <div class="search-tips">
+              <ul>
+                <li>single drug</li>
+                <li>complex drugs</li>
+              </ul>
+            </div>
+          </div>
+          <template v-if="tableData.length">
+              <SimpleTable :header="Object.keys(tableData[0])" :body="tableData" :linkIndexList="[2,3,4,5]" @itemClicked="handleItemClicked"/>
+              <Page show-elevator show-total  @pageClick="handleChangePage" :total="total" :current="pageNum" :page-size="pageSize" @changePage="handleChangePage" @pageSizeChange="handlePageSizeChange"/>
+              <div class="table-tips">
+                <HeaderTitle>
+                  Tips
+                </HeaderTitle>
+                <ul>
+                  <li>Clicking Single <code>Drug</code> item will jump to drug information detail page.</li>
+                  <li>Clicking <code>CellName</code> can get more information about cell line and disease.</li>
+                  <li>Clicking <code>SynergyScore</code> will get response matrix with popup dialog.</li>
+                </ul>
+                <HeaderTitle>
+                  Explanation
+                </HeaderTitle>
+                <ul>
+                  <li><code>SynergyScore</code> represents ......</li>
+                  <li><code>MostSynergisticAreaScore</code> represents ......</li>
+                </ul>
+              </div>
+          </template>
+          <div class="not-found" v-else>
+            <img src="" alt="">
+            <p>
+              No Results.
+            </p>
+          </div>
         </div>
-        <template v-if="tableData.length">
-          <SimpleTable :header="Object.keys(tableData[0])" :body="tableData" :linkIndexList="[0,1,2,3]" @itemClicked="handleItemClicked"/>
-          <Page show-elevator show-total  @pageClick="handleChangePage" :total="total" :current="pageNum" :page-size="pageSize" @changePage="handleChangePage" @pageSizeChange="handlePageSizeChange"/>
-        </template>
       </div>
     </section>
+    <Dialog v-if="showResponseMatrix" @closeDialog="showResponseMatrix = false">
+      <Response :blockId="blockId"/>
+    </Dialog>
   </FullPage>
 </template>
 
@@ -25,25 +59,35 @@ import {getDrugIntegrationPages, searchDrugPages} from '../../api/api'
 import SimpleTable from '../../components/Table/SimpleTable'
 import Page from '../../components/Paging/Paging'
 import Search from '../../components/Header/Search'
+import Dialog from '../../components/Dialog/Dialog'
+import Response from '../response/response'
 export default {
   name: 'synergyScore',
-  components: {Search, Page, SimpleTable, Options, HeaderTitle, FullPage},
+  components: {Response, Dialog, Search, Page, SimpleTable, Options, HeaderTitle, FullPage},
   methods: {
     handleSearch (keyword) {
       if (keyword !== this.keyword) {
         this.keyword = keyword
+        this.pageNum = 1
         this.updateTableData()
       }
     },
     handleItemClicked (col, key, obj) {
-      if (typeof col === 'number') {
-        this.$router.push(`/response/${col}`)
-      } else {
-        if (key === 'drugCombination') {
-          this.$router.push(`/response/${obj.id}`)
-        } else {
-          this.handleSearch(col.trim())
-        }
+      switch (key.toLowerCase()) {
+        case 'drug1':
+        case 'drug2':
+          this.$router.push(`/drugDetail?drugName=${encodeURIComponent(col.trim())}`)
+          break
+        case 'cellname':
+          console.log('点击细胞系弹窗')
+          break
+        case 'synergyscore':
+          this.blockId = obj.id
+          // console.log('弹出药物化学结构和相关信息')
+          this.showResponseMatrix = true
+          break
+        default:
+          break
       }
     },
     updateTableData () {
@@ -86,7 +130,9 @@ export default {
       total: -1,
       pageNum: 1,
       pageSize: 10,
-      keyword: ''
+      keyword: '',
+      blockId: -1,
+      showResponseMatrix: false
     }
   },
   watch: {
@@ -101,20 +147,64 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  section{
-    margin: 0 240px;
+  @import "../../assets/style/main";
+  .synergy-score-container{
+    margin-top: 5px;
     padding: 15px 30px;
+    min-height: calc(100vh - 75px);
     text-align: left;
     background: #ffffff;
 
-    &:first-child{
-      margin-top: 5px;
-    }
-    &:last-child{
-      margin-bottom: 10px;
+    &>div{
+      width: 1000px;
+      margin: 0 auto;
+      height: 100%;
     }
     .content{
       padding-left: 10px;
+
+      .search-tips{
+        padding: 10px 0;
+      }
+      .table-tips{
+        margin-top: 10px;
+      }
+      ul{
+        color: #333;
+        font-size: 14px;
+        line-height: 1.5em;
+        li{
+          font-style: italic;
+          position: relative;
+          padding-left: 20px;
+          margin: 10px 0;
+          code{
+            padding: 3px;
+            font-weight: 400;
+            font-style: normal;
+            color: #c7254e;
+            background-color: #f9f2f4;
+            border-radius: 2px;
+          }
+          &:before{
+            content: '';
+            background: @theme-color;
+            width: 5px;
+            height: 2px;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translate(0,-50%);
+          }
+        }
+      }
+    }
+    .not-found{
+      height: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
   }
 </style>

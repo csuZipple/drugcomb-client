@@ -1,12 +1,12 @@
 <template>
   <div class="page-opt">
     <div class="selected" @click="showOpt = !showOpt">
-      <span>{{options[current] + unit}}</span>
+      <span>{{options[current] + ' '+unit}}</span>
       <img class="icon" src="../../assets/icon/arrow_down.png"/>
     </div>
     <transition enter-active-class="animated bounceIn" leave-active-class="animated fadeOut">
       <ul class="opt" v-if="showOpt">
-        <li :class="['opt-item', {'opt-item-active': current === index}]" v-for="(item, index) in options" @click="handleClick(index)" :key="index">{{item + unit}}</li>
+        <li :class="['opt-item', {'opt-item-active': current === index}]" v-for="(item, index) in options" @click="handleClick(index)" :key="index">{{item  + ' ' + unit}}</li>
       </ul>
     </transition>
   </div>
@@ -24,7 +24,7 @@ export default {
     },
     unit: {
       type: String,
-      default: '条/页'
+      default: 'items/page'
     }
   },
   methods: {

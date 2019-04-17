@@ -1,66 +1,54 @@
 <template>
-  <FullPage>
     <section>
-      <HeaderTitle>
-        Drug Info
-      </HeaderTitle>
-      <div class="drug-info">
-          <table v-if="drugInfoList.length">
-            <tr><th>DrugName</th><td>{{drugInfoList[0]['drugName']}}</td><td>{{drugInfoList[1]['drugName']}}</td></tr>
-            <tr><th>ChemicalStructure</th><td><img :src="drugInfoList[0]['originImgUrl']" alt=""/></td><td><img :src="drugInfoList[1]['originImgUrl']" alt=""/></td></tr>
-            <tr><th>NCI</th><td><a :href="'https://pubchem.ncbi.nlm.nih.gov/compound/'+drugInfoList[0]['cIds']">{{drugInfoList[0]['cIds']}}</a></td><td><a :href="'https://pubchem.ncbi.nlm.nih.gov/compound/'+drugInfoList[1]['cIds']">{{drugInfoList[1]['cIds']}}</a></td></tr>
-            <tr><th>OfficialName</th><td>{{drugInfoList[0]['drugNameOfficial']}}</td><td>{{drugInfoList[1]['drugNameOfficial']}}</td></tr>
-            <tr><th>MolecularWeight</th><td>{{drugInfoList[0]['molecularWeight']}}</td><td>{{drugInfoList[1]['molecularWeight']}}</td></tr>
-            <tr><th>SmilesString</th><td>{{drugInfoList[0]['smilesString']}}</td><td>{{drugInfoList[1]['smilesString']}}</td></tr>
-          </table>
-
-        <div>
-          <p>CellLine</p>
-          <ul v-if="cellLine">
-            <li v-for="(value ,key) in cellLine" :key="key">{{key}} : {{value ? value : "Null"}}</li>
-          </ul>
+      <div>
+        <HeaderTitle>
+          Drug Combination Response
+        </HeaderTitle>
+        <div class="content" v-if="tableData.length">
+          <div class="tab">
+            <button :class="{'active': !showTable}" @click="showTable = false">Matrix</button>
+            <button :class="{'active': showTable}" @click="showTable = true">Table</button>
+          </div>
+          <SimpleTable v-if="showTable" :body="tableData" :header="Object.keys(tableData[0])"/>
+          <div class="response-matrix" v-else>
+            <MultiRect  :data="tableData"/>
+            <div class="drug-info-container">
+              <p class="title">
+                Agents
+              </p>
+              <table v-if="drugInfoList.length">
+                <tr><th>OfficialID</th><td><a target="_blank" :href="'https://pubchem.ncbi.nlm.nih.gov/compound/'+ drugInfoList[0].cIds">{{drugInfoList[0].cIds}}</a></td><td><a target="_blank" :href="'https://pubchem.ncbi.nlm.nih.gov/compound/'+ drugInfoList[1].cIds">{{drugInfoList[1].cIds}}</a></td></tr>
+                <tr><th>DrugName</th><td>{{drugInfoList[0].drugName}}</td><td>{{drugInfoList[1].drugName}}</td></tr>
+                <tr><th>OfficialName</th><td>{{drugInfoList[0].drugNameOfficial}}</td><td>{{drugInfoList[1].drugNameOfficial}}</td></tr>
+                <tr><th>Structure</th><td><img :src="drugInfoList[0].originImgUrl" alt="ChemicalStructure"/></td><td><img :src="drugInfoList[1].originImgUrl" alt="ChemicalStructure"/></td></tr>
+                <tr><th>MolecularWeight</th><td>{{drugInfoList[0].molecularWeight}}</td><td>{{drugInfoList[1].molecularWeight}}</td></tr>
+                <tr><th>SmilesString</th><td>{{drugInfoList[0].smilesString}}</td><td>{{drugInfoList[1].smilesString}}</td></tr>
+                <tr><th>Relative</th><td colspan="2"><a href="https://pubchem.ncbi.nlm.nih.gov/" target="_blank">Pubchem</a>、<a target="_blank" href="http://stitch.embl.de/cgi/input.pl?UserId=T1zxeKQ17paY&sessionId=lqPqezatuxhA">STITCH</a></td></tr>
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
-      <HeaderTitle>
-        Drug Combination Response
-      </HeaderTitle>
-      <div class="content" v-if="tableData.length">
-        <div class="tab">
-          <button @click="showTable = true">Table</button>
-          <button @click="showTable = false">Matrix</button>
-        </div>
-        <div class="tips" v-if="!showTable">
-            // Todo: The Explanation of Matrix
-        </div>
-        <SimpleTable v-if="showTable" :body="tableData" :header="Object.keys(tableData[0])"/>
-        <MultiRect v-else :data="tableData"/>
       </div>
     </section>
-  </FullPage>
 </template>
 
 <script>
-import FullPage from '../../components/FullPage/FullPage'
 import HeaderTitle from '../../components/Header/HeaderTitle'
-import {getIndividualDrugCombinationByBlockId, getDrugInfoByDrugName, getCellLineInfoByBlockId} from '../../api/api'
+import {getIndividualDrugCombinationByBlockId, getDrugInfoByDrugName} from '../../api/api'
 import SimpleTable from '../../components/Table/SimpleTable'
 import MultiRect from '../../components/Visualization/Multi-Rect'
 export default {
   name: 'response',
-  components: {MultiRect, SimpleTable, HeaderTitle, FullPage},
+  components: {MultiRect, SimpleTable, HeaderTitle},
   props: ['blockId'],
   data () {
     return {
       drugInfoList: [],
       tableData: [],
-      cellLine: null,
-      showTable: true
+      showTable: false
     }
   },
   mounted () {
-    getCellLineInfoByBlockId(this.blockId).then(data => {
-      this.cellLine = data
-    })
     getIndividualDrugCombinationByBlockId(this.blockId).then(data => {
       this.tableData = data
       return data
@@ -76,10 +64,14 @@ export default {
 <style lang="less" scoped>
   @import "../../assets/style/main";
   section{
-    margin: 0 240px;
-    padding: 15px 30px;
     text-align: left;
     background: #ffffff;
+
+    &>div{
+      width: 1100px;
+      margin: 0 auto;
+      height: 100%;
+    }
 
     &:first-child{
       margin-top: 5px;
@@ -113,17 +105,67 @@ export default {
       padding-left: 10px;
 
       .tab{
-        padding: 10px 5px;
+        padding: 15px 5px;
         button{
+          transition: all 0.3s;
           height: 30px;
           .btn()
         }
+        .active{
+          background: #ffffff;
+          border-color: @theme-color;
+          color: @theme-color;
+        }
       }
-      .tips{
-        padding: 10px;
-        color: green;
-        font-family: Georgia,serif;
-        font-style: italic;
+      .response-matrix{
+        display: flex;
+        justify-content: space-around;
+
+        .drug-info-container{
+          width: calc(100% - 520px);
+          padding: 10px;
+          transition: all 0.3s;
+          &:hover{
+            box-shadow: 0 30px 30px -10px rgba(33,71,109,0.3), 0 0 20px -2px rgba(15,81,148,0.2);
+          }
+
+          .title{
+            padding: 10px 0 20px;
+            font-size: 24px;
+          }
+          table{
+            width: 100%;
+            padding: 8px;
+            font-family: Consolas,Menlo,Courier,monospace;
+            font-size: 12px;
+            border-collapse: collapse;
+            border-spacing: 0;
+            empty-cells: show;
+            margin-bottom: 24px;
+            tr{
+
+            }
+            td{
+              word-wrap:break-word;
+              word-break:break-all;
+              img{
+                width: 100%;
+                object-fit: contain;
+              }
+              a{
+                color: @theme-color;
+                &:hover{
+                  text-decoration: underline;
+                }
+              }
+            }
+            th,td{
+                border: 1px solid rgba(33,71,109,0.3);
+                padding: 8px;
+                text-align: left;
+            }
+          }
+        }
       }
     }
   }

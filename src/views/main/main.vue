@@ -27,7 +27,7 @@
       <div>
         <Statistic :number="561" unit="" info="Single Drugs"/>
         <Statistic :number="105752" unit="" info="Combinations"/>
-        <Statistic :number="1701452" unit="" info="Experiments"/>
+        <Statistic :number="1127969" unit="" info="Experiments"/>
         <Statistic :number="104" unit="" info="Cell Lines"/>
       </div>
     </section>
@@ -172,7 +172,7 @@ export default {
   }
   .data-statistics{
     height: 120px;
-    background: #e8e8e8;
+    background: #f1f1f1;
     &>div{
       width: 1000px;
       margin: 0 auto;

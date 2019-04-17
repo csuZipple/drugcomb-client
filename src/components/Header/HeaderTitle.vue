@@ -1,7 +1,6 @@
 <template>
   <header>
     <h2>
-      <a class="hylink" href="#!">#</a>
       <slot></slot>
     </h2>
   </header>
@@ -18,18 +17,20 @@ export default {
   header{
     margin: 10px;
     position: relative;
+    padding-left: 10px;
     &:after{
       content: '';
       position: absolute;
       width: 5px;
-      height: 80%;
+      height: 70%;
       left: -10px;
       top: 50%;
       background: @theme-color;
       transform: translate(0, -50%);
     }
-    .hylink:hover{
-      text-decoration: underline;
+    h2{
+      font-weight: 300;
+      font-size: 24px;
     }
   }
 </style>
