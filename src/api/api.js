@@ -45,3 +45,9 @@ export const getCellLineInfoByBlockId = (blockId) => {
 export const searchDrugPages = (drugName, page, size) => {
   return axios.get(`/integration/search/${encodeURIComponent(drugName)}?page=${page}&size=${size}`)
 }
+
+export const getDrugProteinLinksInformation = drugId => {
+  return axios.get(`/proteins/${drugId}`, {
+    timeout: 30000
+  })
+}
