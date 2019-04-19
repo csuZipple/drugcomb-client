@@ -41,11 +41,11 @@ export default {
         return ret
       })
     },
-    mountSVG (key = this.key, topColor = '#002000') {
+    mountSVG (key = this.key, lowColor = 'red', topColor = '#002000', fontColor = 'white') {
       d3.select('svg').remove()
       let data = this.sort(this.data)
       const canvas = this.initChart(d3, '.multi-rect')
-      const colorScale = d3.scaleLinear().domain([0, Math.max.apply(null, data.map(item => item.response))]).range(['red', topColor])
+      const colorScale = d3.scaleLinear().domain([0, Math.max.apply(null, data.map(item => item[key]))]).range([lowColor, topColor])
       const width = this.width - 70
       const height = this.height - 50
       const concRow = data[0].concRow
@@ -109,7 +109,7 @@ export default {
         .attr('fill', d => colorScale(d[key]))
 
       g.append('text')
-        .attr('fill', 'white')
+        .attr('fill', fontColor)
         .style('font-size', '16px')
         .attr('x', (d, i) => i % colNumber * width / colNumber + width / (colNumber * 4))
         .attr('y', (d, i) => Number.parseInt(i / rowNumber + '') * height / rowNumber + height / (rowNumber * 2))
@@ -154,7 +154,9 @@ export default {
     showZip (n) {
       const key = n ? 'response' : 'blissScore'
       const topColor = n ? '#002000' : 'rgb(192, 220, 235)'
-      this.mountSVG(key, topColor)
+      const lowColor = n ? 'red' : 'rgb(247, 247, 247)'
+      const fontColor = n ? 'white' : 'black'
+      this.mountSVG(key, lowColor, topColor, fontColor)
     }
   }
 }
