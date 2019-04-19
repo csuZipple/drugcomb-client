@@ -6,9 +6,33 @@
           Drug-Detail-Information
         </HeaderTitle>
         <div class="drug-info">
-          <template v-if="drugProteinLinks">
+          <template v-if="drugProteinLinks.links.length">
             <DrugProteinNetworks :drugProteinLinks="drugProteinLinks"/>
+            <HeaderTitle>
+              Proteins's ID
+            </HeaderTitle>
+            <ul style="padding: 10px 0;">
+              <li v-if="index !== 0" v-for="(item, index) in drugProteinLinks.nodes" :key="index">{{item.id}}</li>
+            </ul>
+            <p style="color: #2b85e4; font-style: italic; font-family: Georgia, serif">
+              Will fill the protein data soon...
+            </p>
           </template>
+          <div v-else>
+            No Results...
+          </div>
+        </div>
+        <HeaderTitle>
+          Clinical-Response
+        </HeaderTitle>
+        <div class="clinical-response">
+          Clinical response
+        </div>
+        <HeaderTitle>
+          Side-Effects
+        </HeaderTitle>
+        <div class="side-effects">
+          Side-Effects
         </div>
       </div>
     </section>
@@ -37,8 +61,6 @@ export default {
         return data
       }).then(data => {
         getDrugProteinLinksInformation(data.cIds).then(data => {
-          console.log('获取药物蛋白质蛋白质信息..', data)
-          // Todo: 需要对数据进行去重
           this.drugProteinLinks = data
         })
       })
@@ -65,6 +87,9 @@ export default {
       width: 1000px;
       margin: 0 auto;
       height: 100%;
+      &>div{
+        padding-left: 30px;
+      }
     }
   }
 </style>

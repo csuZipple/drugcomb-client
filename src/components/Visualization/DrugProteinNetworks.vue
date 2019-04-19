@@ -73,6 +73,21 @@
         </linearGradient>
       </defs>
     </svg>
+    <div class="legend-container">
+      <p class="title">Legend</p>
+      <div class="legend">
+        <img src="../../assets/protein.png" alt="">
+        <p>
+          Proteins.....
+        </p>
+      </div>
+      <div class="legend">
+        <img src="../../assets/drug.png" alt="">
+        <p>
+          Drug: {{drugName}}
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -88,6 +103,7 @@ export default {
     }
   },
   mounted () {
+    this.drugName = this.$route.query.drugName
     this.mountForceLayout()
   },
   methods: {
@@ -154,8 +170,7 @@ export default {
       })
       simulation.force('link').links(graph.links)
     },
-    generateCircle (g) {
-      const radius = this.radius
+    generateCircle (g, radius = this.radius) {
       g.append('ellipse')
         .attr('rx', 19)
         .attr('ry', 14)
@@ -187,13 +202,12 @@ export default {
         .attr('ry', 6)
         .attr('fill', 'url(#brilliance_gradient)')
     },
-    generateRect (container) {
+    generateRect (container, width = this.width / 2 - 5, height = this.height / 2, rectHeight = 30) {
       const g = container.append('g')
-      const width = this.width / 2 - 5
-      const height = this.height / 2
-      const path = `M${width - 15},${height - 15} A15,15 0 0,0 ${width - 15},${height + 15} L${width + 30},${height + 15} A15,15 0 0,0 ${width + 30},${height - 15} z`
-      const transform1 = `translate(${width - 30},${height - 15}) translate(0,10) scale(1,0.75) translate(-${width - 30},-${height - 15})`
-      const transform2 = `translate(${width - 30},${height - 15}) scale(0.8,0.3) translate(9,7) translate(-${width - 30},-${height - 15})`
+      const w = rectHeight / 2
+      const path = `M${width - w},${height - w} A15,15 0 0,0 ${width - w},${height + w} L${width + rectHeight},${height + w} A15,15 0 0,0 ${width + rectHeight},${height - w} z`
+      const transform1 = `translate(${width - rectHeight},${height - w}) translate(0,10) scale(1,0.75) translate(-${width - rectHeight},-${height - w})`
+      const transform2 = `translate(${width - rectHeight},${height - w}) scale(0.8,0.3) translate(9,7) translate(-${width - rectHeight},-${height - w})`
       g.append('path').attr('d', path)
         .attr('fill', '#000000')
         .attr('opacity', 0.6)
@@ -223,7 +237,8 @@ export default {
   },
   data () {
     return {
-      radius: 20
+      radius: 20,
+      drugName: ''
     }
   },
   computed: {
@@ -241,5 +256,29 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+  .drug-protein-container{
+    display: flex;
+    justify-content: space-between;
+    .legend-container{
+      width: calc(100% - 510px);
+      padding: 10px;
+      .title{
+        font-size: 24px;
+        font-weight: 300;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+      }
+      .legend{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        img{
+          width: 100px;
+          height: 50px;
+          object-fit: contain;
+          transform: scale(0.5);
+        }
+      }
+    }
+  }
 </style>
