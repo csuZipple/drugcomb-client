@@ -1,7 +1,7 @@
 <template>
   <div class="search-wrapper">
-    <input ref="input" :value="value" type="search" @keyup.enter="handleSearch" title="search" placeholder="Search Drug ...">
-    <button @click="handleSearch">Search</button>
+    <input ref="input" :value="value" type="search" @keyup.enter="handleSearch" title="search" :placeholder="placeHolder">
+    <button @click="handleSearch">{{searchText}}</button>
   </div>
 </template>
 
@@ -9,7 +9,15 @@
 export default {
   name: 'Search',
   props: {
-    value: String
+    value: String,
+    placeHolder: {
+      type: String,
+      default: 'Search Drug ...'
+    },
+    searchText: {
+      type: String,
+      default: 'Search'
+    }
   },
   methods: {
     handleSearch () {

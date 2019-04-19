@@ -51,3 +51,9 @@ export const getDrugProteinLinksInformation = drugId => {
     timeout: 30000
   })
 }
+
+export const downloadFileByIndex = index => {
+  return axios.post(`/download/${index}`, {
+    timeout: 30000
+  })
+}
