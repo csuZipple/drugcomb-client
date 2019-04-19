@@ -56,6 +56,7 @@ export default {
       const width = this.width
       const height = this.height
       const graph = this.drugProteinLinks
+      console.log(graph)
       const distanceScale = d3.scaleLinear().domain([0, this.maxScore]).range([0, 200])
       const simulation = d3.forceSimulation().force('link', d3.forceLink().id(d => d.id).distance(d => distanceScale(d.score)))
         .force('charge', d3.forceManyBody())
@@ -67,6 +68,7 @@ export default {
         .enter()
         .append('line')
         .attr('stroke', '#aaa')
+        .attr('stroke-width', '3px')
 
       const node = svg.append('g')
         .selectAll('g')
@@ -74,7 +76,6 @@ export default {
         .enter()
         .append('g')
         .attr('cursor', 'pointer')
-
         .call(d3.drag().on('start', d => {
           if (!d3.event.active) simulation.alphaTarget(0.3).restart()
           d.fx = d.x
@@ -90,6 +91,8 @@ export default {
 
       this.generateCircle(node)
 
+      graph.nodes[0].fx = width / 2
+      graph.nodes[0].fy = height / 2
       node.append('title').text(d => d.id)
       simulation.nodes(graph.nodes).on('tick', () => {
         link
@@ -111,25 +114,17 @@ export default {
     },
     generateCircle (g) {
       const radius = 20
-      const graph = this.drugProteinLinks
-      const colorScale = d3.scaleLinear().domain([0, graph.nodes.length]).range(['red', '#2d8cf0'])
       g.append('ellipse')
         .attr('rx', 19)
         .attr('ry', 14)
-        // .attr('cx', cx)
-        // .attr('cy', cy + 10)
         .attr('opacity', 0.6)
         .attr('fill', '#000000')
         .attr('filter', 'url(#filter_shadow)')
       g.append('circle')
         .attr('r', radius)
-        // .attr('cx', cx)
-        // .attr('cy', cy)
         .attr('fill', 'url(#bubble_gradient1)')
       g.append('circle')
         .attr('r', radius)
-        // .attr('cx', cx)
-        // .attr('cy', cy)
         .attr('opacity', 0.33)
         .attr('fill', 'url(#bubble_gradient2)')
         .on('mouseover', function () {
@@ -140,23 +135,18 @@ export default {
         })
       g.append('circle')
         .attr('r', radius)
-        // .attr('cx', cx)
-        // .attr('cy', cy)
         .attr('opacity', 0.4)
         .attr('pointer-events', 'none')
-        .attr('fill', d => {
-          console.log(colorScale(d.index))
-          return colorScale(d.index)
+        .attr('fill', () => {
+          return this.getRandomColor()
         })
       g.append('ellipse')
         .attr('rx', 11.5)
         .attr('ry', 6)
-        // .attr('cx', cx)
-        // .attr('cy', cy - 13)
         .attr('fill', 'url(#brilliance_gradient)')
     },
     getRandomColor () {
-      return 'rgb(' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 10) + ')'
+      return 'rgb(' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ')'
     }
   },
   computed: {
@@ -170,36 +160,6 @@ export default {
       return ret
     }
   }
-/*  data () {
-    return {
-      drugProteinLinks: {
-        'nodes': [
-          {'id': 'Myriel'},
-          {'id': 'Napoleon'},
-          {'id': 'Mlle.Baptistine'},
-          {'id': 'Mme.Magloire'},
-          {'id': 'CountessdeLo'},
-          {'id': 'Geborand'},
-          {'id': 'Champtercier'},
-          {'id': 'Cravatte'},
-          {'id': 'Count'},
-          {'id': 'OldMan'}
-        ],
-        'links': [
-          {'source': 'Napoleon', 'target': 'Myriel'},
-          {'source': 'Mlle.Baptistine', 'target': 'Myriel'},
-          {'source': 'Mme.Magloire', 'target': 'Myriel'},
-          {'source': 'Mme.Magloire', 'target': 'Mlle.Baptistine'},
-          {'source': 'CountessdeLo', 'target': 'Myriel'},
-          {'source': 'Geborand', 'target': 'Myriel'},
-          {'source': 'Champtercier', 'target': 'Myriel'},
-          {'source': 'Cravatte', 'target': 'Myriel'},
-          {'source': 'Count', 'target': 'Myriel'},
-          {'source': 'OldMan', 'target': 'Myriel'}
-        ]
-      }
-    }
-  } */
 }
 </script>
 
