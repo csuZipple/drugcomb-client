@@ -32,6 +32,46 @@
           <stop offset="1" style="stop-color:#000000;"></stop>
         </radialGradient>
       </defs>
+      <defs >
+        <linearGradient id="brilliance_gradient" x1="50%" x2="50%" y1="0%" y2="100%">
+          <stop offset="0" style="stop-color:#FFFFFF;stop-opacity:1;"></stop>
+          <stop offset="0.1" style="stop-color:#FFFFFF;stop-opacity:0.99;"></stop>
+          <stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0;"></stop>
+        </linearGradient>
+      </defs>
+      <defs >
+        <linearGradient id="pill_gradient1" x1="50%" x2="50%" y1="100%" y2="0%">
+          <stop offset="0.2472" style="stop-color:#FAFAFA"></stop>
+          <stop offset="0.3381" style="stop-color:#D0D0D0"></stop>
+          <stop offset="0.4517" style="stop-color:#A2A2A2"></stop>
+          <stop offset="0.5658" style="stop-color:#7C7C7C"></stop>
+          <stop offset="0.6785" style="stop-color:#5E5E5E"></stop>
+          <stop offset="0.7893" style="stop-color:#494949"></stop>
+          <stop offset="0.8975" style="stop-color:#3C3C3C"></stop>
+          <stop offset="1" style="stop-color:#383838"></stop>
+        </linearGradient>
+        <radialGradient cx="50%" cy="50%" id="pill_gradient2" r="50%">
+          <stop offset="0" style="stop-color:#FFFFFF"></stop>
+          <stop offset="0.3726" style="stop-color:#FDFDFD"></stop>
+          <stop offset="0.5069" style="stop-color:#F6F6F6"></stop>
+          <stop offset="0.6026" style="stop-color:#EBEBEB"></stop>
+          <stop offset="0.68" style="stop-color:#DADADA"></stop>
+          <stop offset="0.7463" style="stop-color:#C4C4C4"></stop>
+          <stop offset="0.805" style="stop-color:#A8A8A8"></stop>
+          <stop offset="0.8581" style="stop-color:#888888"></stop>
+          <stop offset="0.9069" style="stop-color:#626262"></stop>
+          <stop offset="0.9523" style="stop-color:#373737"></stop>
+          <stop offset="0.9926" style="stop-color:#090909"></stop>
+          <stop offset="1" style="stop-color:#000000"></stop>
+        </radialGradient>
+      </defs>
+      <defs >
+        <linearGradient id="pill_brilliance_gradient" x1="50%" x2="50%" y1="0%" y2="100%">
+          <stop offset="0" style="stop-color:#FFFFFF; stop-opacity:1"></stop>
+          <stop offset="0.1" style="stop-color:#FFFFFF; stop-opacity:0.99"></stop>
+          <stop offset="1" style="stop-color:#FFFFFF; stop-opacity:0"></stop>
+        </linearGradient>
+      </defs>
     </svg>
   </div>
 </template>
@@ -52,13 +92,13 @@ export default {
   },
   methods: {
     mountForceLayout () {
-      const svg = d3.select('svg')
+      const svg = d3.select('.drug-protein-container').select('svg')
       const width = this.width
       const height = this.height
       const graph = this.drugProteinLinks
-      console.log(graph)
       const distanceScale = d3.scaleLinear().domain([0, this.maxScore]).range([0, 200])
       const simulation = d3.forceSimulation().force('link', d3.forceLink().id(d => d.id).distance(d => distanceScale(d.score)))
+        .force('collide', d3.forceCollide().radius(this.radius + 1).iterations(2))
         .force('charge', d3.forceManyBody())
         .force('center', d3.forceCenter(width / 2, height / 2))
 
@@ -70,7 +110,9 @@ export default {
         .attr('stroke', '#aaa')
         .attr('stroke-width', '3px')
 
-      const node = svg.append('g')
+      const nodeContainer = svg.append('g')
+      this.generateRect(nodeContainer)
+      const node = nodeContainer
         .selectAll('g')
         .data(graph.nodes)
         .enter()
@@ -113,7 +155,7 @@ export default {
       simulation.force('link').links(graph.links)
     },
     generateCircle (g) {
-      const radius = 20
+      const radius = this.radius
       g.append('ellipse')
         .attr('rx', 19)
         .attr('ry', 14)
@@ -145,8 +187,43 @@ export default {
         .attr('ry', 6)
         .attr('fill', 'url(#brilliance_gradient)')
     },
+    generateRect (container) {
+      const g = container.append('g')
+      const width = this.width / 2 - 5
+      const height = this.height / 2
+      const path = `M${width - 15},${height - 15} A15,15 0 0,0 ${width - 15},${height + 15} L${width + 30},${height + 15} A15,15 0 0,0 ${width + 30},${height - 15} z`
+      const transform1 = `translate(${width - 30},${height - 15}) translate(0,10) scale(1,0.75) translate(-${width - 30},-${height - 15})`
+      const transform2 = `translate(${width - 30},${height - 15}) scale(0.8,0.3) translate(9,7) translate(-${width - 30},-${height - 15})`
+      g.append('path').attr('d', path)
+        .attr('fill', '#000000')
+        .attr('opacity', 0.6)
+        .attr('filter', 'url(#filter_shadow)')
+        .attr('transform', transform1)
+      g.append('path').attr('d', path)
+        .attr('fill', 'url(#pill_gradient1)')
+      g.append('path').attr('d', path)
+        .attr('fill', 'url(#pill_gradient2)')
+        .attr('opacity', 0.33)
+      g.append('path').attr('d', path)
+        .attr('fill', 'rgb(255,0,0)')
+        .attr('opacity', 0.5)
+        .attr('cursor', 'pointer')
+        .append('title').text(this.drugProteinLinks.nodes[0].id)
+      g.append('path').attr('d', path)
+        .attr('fill', 'url(#pill_brilliance_gradient)')
+        .attr('transform', transform2)
+
+      // g.on('click', () => {
+      //   console.log('this', this.$emit('centerNodeClick'))
+      // })
+    },
     getRandomColor () {
       return 'rgb(' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ')'
+    }
+  },
+  data () {
+    return {
+      radius: 20
     }
   },
   computed: {
