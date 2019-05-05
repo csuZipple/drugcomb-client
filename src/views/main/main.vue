@@ -14,10 +14,7 @@
           <div class="recommend">
             <span class="tag">Try</span>
             <ul>
-              <li>Chlorambucil - pralatrexate</li>
-              <li>Melphalan - Fluorouracil </li>
-              <li>Melphalan - Fluorouracil </li>
-              <li>Melphalan - Fluorouracil </li>
+              <li v-for="(item, index) in recommendList" :key = index @click="handleRecommendItemClicked(item)">{{item}}</li>
             </ul>
           </div>
         </div>
@@ -57,17 +54,31 @@
 <script>
 import FullPage from '../../components/FullPage/FullPage'
 import Statistic from './components/statistic'
+import {getRecommendDrugIntegrationList} from '../../api/api'
+
 export default {
   name: 'home',
   components: {Statistic, FullPage},
+  created () {
+    getRecommendDrugIntegrationList().then(data => {
+      this.recommendList = data
+    })
+  },
   methods: {
     handleSearch () {
       this.$router.push(`/synergyScore?q=${encodeURIComponent(this.keyword)}`)
+    },
+    handleRecommendItemClicked (name) {
+      this.keyword = name
+      this.$nextTick(() => {
+        this.handleSearch()
+      })
     }
   },
   data () {
     return {
-      keyword: ''
+      keyword: '',
+      recommendList: []
     }
   }
 }
@@ -132,9 +143,6 @@ export default {
             &:focus{
               outline: none;
             }
-            &:active{
-              background: @lighter-blue;
-            }
           }
         }
         .recommend{
@@ -160,7 +168,6 @@ export default {
               cursor: default;
               transition: all 0.3s;
               &:hover{
-                color: @lighter-blue;
                 text-decoration: underline;
               }
             }

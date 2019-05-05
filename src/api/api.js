@@ -42,6 +42,10 @@ export const getCellLineInfoByBlockId = (blockId) => {
   })
 }
 
+export const getRecommendDrugIntegrationList = () => {
+  return axios.get(`/integration/recommends`)
+}
+
 export const searchDrugPages = (drugName, page, size) => {
   return axios.get(`/integration/search/${encodeURIComponent(drugName)}?page=${page}&size=${size}`)
 }
