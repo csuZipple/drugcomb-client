@@ -1,6 +1,6 @@
 <template>
   <div class="search-wrapper">
-    <input ref="input" :value="value" type="search" @keyup.enter="handleSearch" title="search" :placeholder="placeHolder">
+    <input ref="input" spellcheck="false" :value="value" type="search" @keyup.enter="handleSearch" title="search" :placeholder="placeHolder">
     <button @click="handleSearch">{{searchText}}</button>
   </div>
 </template>
