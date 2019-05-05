@@ -11,8 +11,11 @@ export class HttpRequest {
     }, error => Promise.reject(error))
 
     instance.interceptors.response.use(res => {
-      const {data, status} = res
+      const {data, status, config} = res
       if (status === 200) {
+        if (config.isCompleteResponse) {
+          return res
+        }
         if (data.code === 200) {
           return data.data
         } else {
