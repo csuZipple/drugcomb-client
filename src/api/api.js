@@ -46,6 +46,16 @@ export const getRecommendDrugIntegrationList = () => {
   return axios.get(`/integration/recommends`)
 }
 
+export const searchDrugCombinationByCombinationName = (combination, page, size) => {
+  return axios.get(`/integration/search`, {
+    params: {
+      combination,
+      page,
+      size
+    }
+  })
+}
+
 export const searchDrugPages = (drugName, page, size) => {
   return axios.get(`/integration/search/${encodeURIComponent(drugName)}?page=${page}&size=${size}`)
 }

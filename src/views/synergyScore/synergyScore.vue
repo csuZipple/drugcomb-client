@@ -10,8 +10,8 @@
             <Search :value="keyword" @search="handleSearch"/>
             <div class="search-tips">
               <ul>
-                <li>single drug</li>
-                <li>complex drugs</li>
+                <li>single drug <span v-if="keyword.split(' - ').length <= 1 && keyword !== ''">: &nbsp;<code >{{ keyword}}</code></span></li>
+                <li>complex drugs<span v-if="keyword.split(' - ').length > 1">: &nbsp;<code >{{ keyword}}</code></span></li>
               </ul>
             </div>
           </div>
@@ -61,7 +61,7 @@
 import FullPage from '../../components/FullPage/FullPage'
 import HeaderTitle from '../../components/Header/HeaderTitle'
 import Options from '../../components/Paging/Options'
-import {getDrugIntegrationPages, searchDrugPages} from '../../api/api'
+import {getDrugIntegrationPages, searchDrugPages, searchDrugCombinationByCombinationName} from '../../api/api'
 import SimpleTable from '../../components/Table/SimpleTable'
 import Page from '../../components/Paging/Paging'
 import Search from '../../components/Header/Search'
@@ -106,14 +106,26 @@ export default {
           }
         })
       } else {
-        searchDrugPages(this.keyword, this.pageNum, this.pageSize).then(data => {
-          if (data.total) {
-            this.tableData = data.page
-            this.total = data.total
-          } else {
-            this.$message('Not Found')
-          }
-        })
+        // 判断是搜索组合药物还是搜索单个药物
+        if (this.keyword.split(' - ').length > 1) {
+          searchDrugCombinationByCombinationName(this.keyword, this.pageNum, this.pageSize).then(data => {
+            if (data.total) {
+              this.tableData = data.page
+              this.total = data.total
+            } else {
+              this.$message('Not Found')
+            }
+          })
+        } else {
+          searchDrugPages(this.keyword, this.pageNum, this.pageSize).then(data => {
+            if (data.total) {
+              this.tableData = data.page
+              this.total = data.total
+            } else {
+              this.$message('Not Found')
+            }
+          })
+        }
       }
     },
     handleChangePage (index) {
