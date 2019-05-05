@@ -17,12 +17,12 @@
           <div class="all-dataset">
             <table>
               <tr><th>Index</th><th>Release Date</th><th>Dataset</th></tr>
-              <tr><td>1</td><td>2019.04.19</td><td><span @click="handleDownLoad(0)" class="download-link">Response_Bliss.csv</span></td></tr>
-              <tr><td>2</td><td>2019.04.19</td><td><span @click="handleDownLoad(1)" class="download-link">Drug_Combination.csv</span></td></tr>
-              <tr><td>3</td><td>2019.04.19</td><td><span @click="handleDownLoad(2)" class="download-link">Cell_Line.csv</span></td></tr>
-              <tr><td>4</td><td>2019.04.19</td><td><span @click="handleDownLoad(3)" class="download-link">drug_chemical_info.csv</span></td></tr>
-              <tr><td>5</td><td>Latest</td><td><span @click="handleDownLoad(4)" class="download-link">drug_protein_links.tsv</span></td></tr>
-              <tr><td>6</td><td>Latest</td><td><span @click="handleDownLoad(5)" class="download-link">protein_protein_links.txt</span></td></tr>
+              <tr><td>1</td><td>2019.04.19</td><td><span @click="handleDownLoad(0, 'response_Bliss.csv')" class="download-link">response_Bliss.csv</span></td></tr>
+              <tr><td>2</td><td>2019.04.19</td><td><span @click="handleDownLoad(1, 'drug_Combination.csv')" class="download-link">drug_Combination.csv</span></td></tr>
+              <tr><td>3</td><td>2019.04.19</td><td><span @click="handleDownLoad(2, 'cell_Line.csv')" class="download-link">cell_Line.csv</span></td></tr>
+              <tr><td>4</td><td>2019.04.19</td><td><span @click="handleDownLoad(3, 'drug_chemical_info.csv')" class="download-link">drug_chemical_info.csv</span></td></tr>
+              <tr><td>5</td><td>Latest</td><td><span @click="handleDownLoad(4, 'drug_protein_links.tsv')" class="download-link">drug_protein_links.tsv</span></td></tr>
+              <tr><td>6</td><td>Latest</td><td><span @click="handleDownLoad(5, 'protein_protein_links.txt')" class="download-link">protein_protein_links.txt</span></td></tr>
             </table>
             <p>
               <span>Note:</span> when downloading from a mirror please check the SHA-512 and verify the OpenPGP compatible signature from the main Apache site. Links are provided above (next to the release download link). This KEYS file contains the public keys used for signing release. It is recommended that (when possible) a web of trust is used to confirm the identity of these keys.
@@ -72,9 +72,14 @@ export default {
   name: 'download',
   components: {Search, HeaderTitle, FullPage},
   methods: {
-    handleDownLoad (index) {
-      downloadFileByIndex(index).then(data => {
-        console.log('download ', data)
+    handleDownLoad (index, fileName) {
+      downloadFileByIndex(index).then(res => {
+        const url = window.URL.createObjectURL(new Blob([res.data]))
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', `${fileName}`)
+        document.body.appendChild(link)
+        link.click()
       })
     }
   },
