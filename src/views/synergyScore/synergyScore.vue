@@ -187,35 +187,6 @@ export default {
       .table-tips{
         margin-top: 10px;
       }
-      ul{
-        color: #333;
-        font-size: 14px;
-        line-height: 1.5em;
-        li{
-          font-style: italic;
-          position: relative;
-          padding-left: 20px;
-          margin: 10px 0;
-          code{
-            padding: 3px;
-            font-weight: 400;
-            font-style: normal;
-            color: #c7254e;
-            background-color: #f9f2f4;
-            border-radius: 2px;
-          }
-          &:before{
-            content: '';
-            background: @theme-color;
-            width: 5px;
-            height: 2px;
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translate(0,-50%);
-          }
-        }
-      }
     }
     .not-found{
       height: 500px;
