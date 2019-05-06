@@ -5,44 +5,31 @@
         <HeaderTitle>Download DataSets</HeaderTitle>
         <div class="content">
           <p class="title">
-            Single Drug
+            Single Drug Combination
           </p>
           <p>
-            <Search place-holder="Search single drug here.."/>
+            <Search v-model="keyword" place-holder="Input drug combination " search-text="Download" @search="handleSearch"/>
+          </p>
+          <p class="title">
+            SynergyScore - Two classification
           </p>
           <table>
-            <tr><th></th></tr>
+            <tr><th>Index</th><th>Release Date</th><th>Dataset</th></tr>
+
           </table>
-          <p class="title">All</p>
+          <p class="title">All - Raw data</p>
           <div class="all-dataset">
             <table>
               <tr><th>Index</th><th>Release Date</th><th>Dataset</th></tr>
-              <tr><td>1</td><td>2019.04.19</td><td><span @click="handleDownLoad(0, 'response_Bliss.csv')" class="download-link">response_Bliss.csv</span></td></tr>
-              <tr><td>2</td><td>2019.04.19</td><td><span @click="handleDownLoad(1, 'drug_Combination.csv')" class="download-link">drug_Combination.csv</span></td></tr>
-              <tr><td>3</td><td>2019.04.19</td><td><span @click="handleDownLoad(2, 'cell_Line.csv')" class="download-link">cell_Line.csv</span></td></tr>
-              <tr><td>4</td><td>2019.04.19</td><td><span @click="handleDownLoad(3, 'drug_chemical_info.csv')" class="download-link">drug_chemical_info.csv</span></td></tr>
-              <tr><td>5</td><td>Latest</td><td><span @click="handleDownLoad(4, 'drug_protein_links.tsv')" class="download-link">drug_protein_links.tsv</span></td></tr>
-              <tr><td>6</td><td>Latest</td><td><span @click="handleDownLoad(5, 'protein_protein_links.txt')" class="download-link">protein_protein_links.txt</span></td></tr>
+              <tr v-for="(item,index) in allData" :key="index"><td>{{item.index}}</td><td>{{item.date}}</td><td><span @click="handleDownLoad(index, item.title)" class="download-link">{{item.title}}</span></td></tr>
             </table>
-            <p>
-              <span>Note:</span> when downloading from a mirror please check the SHA-512 and verify the OpenPGP compatible signature from the main Apache site. Links are provided above (next to the release download link). This KEYS file contains the public keys used for signing release. It is recommended that (when possible) a web of trust is used to confirm the identity of these keys.
+            <p style="color: #ff0000;">
+              Note: These data are for scientific research only and are not for commercial use.
             </p>
           </div>
           <p class="title">Descriptions</p>
           <div class="description">
             <p class="description-title">Combination.csv</p>
-            <ul class="tips">
-              <li>id: key</li>
-              <li>fid: foreign key</li>
-              <li>source: the origin data</li>
-              <li>drug1name: drug name</li>
-              <li>drug2name: drug name</li>
-              <li>conc1: drug concentration</li>
-              <li>conc2: drug concentration</li>
-              <li>growth: Combined drug sensitivity score for this cancer cell line, between 0-1</li>
-              <li>cellline: The name of the cancer cell line</li>
-            </ul>
-            <p class="description-title">Integration.csv</p>
             <ul class="tips">
               <li>id: key</li>
               <li>fid: foreign key</li>
@@ -72,6 +59,10 @@ export default {
   name: 'download',
   components: {Search, HeaderTitle, FullPage},
   methods: {
+    handleSearch (keyword) {
+      this.keyword = keyword
+      this.$message('暫未實現該功能')
+    },
     handleDownLoad (index, fileName) {
       downloadFileByIndex(index).then(res => {
         const url = window.URL.createObjectURL(new Blob([res.data]))
@@ -85,7 +76,40 @@ export default {
   },
   data () {
     return {
-      singleDrug: null
+      singleDrug: null,
+      keyword: '',
+      allData: [
+        {
+          index: 1,
+          date: '2019.04.19',
+          title: 'response_bliss.csv'
+        },
+        {
+          index: 2,
+          date: '2019.04.19',
+          title: 'drug_combination.csv'
+        },
+        {
+          index: 3,
+          date: '2019.04.19',
+          title: 'cell_Line.csv'
+        },
+        {
+          index: 4,
+          date: '2019.04.19',
+          title: 'drug_chemical_info.csv'
+        },
+        {
+          index: 5,
+          date: 'Latest',
+          title: 'drug_protein_links.tsv'
+        },
+        {
+          index: 6,
+          date: 'Latest',
+          title: 'protein_protein_links.txt'
+        }
+      ]
     }
   }
 }
@@ -116,35 +140,34 @@ export default {
           font-size: 16px;
           color: #212121;
         }
-        .all-dataset{
-          table{
-            width: 50%;
-            border-spacing: 0;
-            border-collapse: collapse;
-            margin: 10px 0 20px;
-            th{
-              font-weight: 400;
-              border-top: 1px solid #ddd;
-            }
-            th,td{
-              padding: 8px 16px;
-              text-align: left;
-            }
+        table{
+          width: 50%;
+          border-spacing: 0;
+          border-collapse: collapse;
+          margin: 10px 0 20px;
+          th{
+            font-weight: 400;
+            border-top: 1px solid #ddd;
+          }
+          th,td{
+            padding: 8px 16px;
+            text-align: left;
           }
         }
       }
+
       .description{
         .description-title{
           font-weight: 400;
           padding: 0 0 10px;
         }
-         ul{
+        ul{
           padding:10px;
           background: #f5f5f5;
           border: 1px solid #e8e8e8;
-           li{
-             padding: 2px;
-           }
+          li{
+            padding: 2px;
+          }
         }
       }
       .download-link{
