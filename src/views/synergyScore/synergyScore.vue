@@ -11,7 +11,7 @@
             <div class="search-tips">
               <ul class="line">
                 <li>single drug <span v-if="keyword.split(' - ').length <= 1 && keyword !== ''">: &nbsp;<code >{{ keyword}}</code></span></li>
-                <li>complex drugs<span v-if="keyword.split(' - ').length > 1">: &nbsp;<code >{{ keyword}}</code></span></li>
+                <li>drug combination<span v-if="keyword.split(' - ').length > 1">: &nbsp;<code >{{ keyword}}</code></span></li>
               </ul>
             </div>
           </div>
@@ -51,11 +51,7 @@
       <Response :blockId="blockId"/>
     </Dialog>
     <Dialog v-if="showCellLineDialog" @closeDialog="showCellLineDialog = false">
-      <!--  Todo:收集细胞系的gene expressions    -->
-      <p>To show cell line's gene expressions</p>
-      <div>
-        No Results ....
-      </div>
+        <CellLine/>
     </Dialog>
   </FullPage>
 </template>
@@ -70,9 +66,10 @@ import Page from '../../components/Paging/Paging'
 import Search from '../../components/Header/Search'
 import Dialog from '../../components/Dialog/Dialog'
 import Response from '../response/response'
+import CellLine from './components/cellLine'
 export default {
   name: 'synergyScore',
-  components: {Response, Dialog, Search, Page, SimpleTable, Options, HeaderTitle, FullPage},
+  components: {CellLine, Response, Dialog, Search, Page, SimpleTable, Options, HeaderTitle, FullPage},
   methods: {
     handleSearch (keyword) {
       if (keyword !== this.keyword) {
