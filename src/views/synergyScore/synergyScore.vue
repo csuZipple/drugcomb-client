@@ -9,7 +9,7 @@
           <div style="padding: 10px;">
             <Search :value="keyword" @search="handleSearch"/>
             <div class="search-tips">
-              <ul>
+              <ul class="line">
                 <li>single drug <span v-if="keyword.split(' - ').length <= 1 && keyword !== ''">: &nbsp;<code >{{ keyword}}</code></span></li>
                 <li>complex drugs<span v-if="keyword.split(' - ').length > 1">: &nbsp;<code >{{ keyword}}</code></span></li>
               </ul>
@@ -22,7 +22,7 @@
                 <HeaderTitle>
                   Tips
                 </HeaderTitle>
-                <ul>
+                <ul class="line">
                   <li>Clicking Single <code>Drug</code> item will jump to drug information detail page.</li>
                   <li>Clicking <code>CellName</code> can get more information about cell line and disease.</li>
                   <li>Clicking <code>SynergyScore</code> will get response matrix with popup dialog.</li>
@@ -30,7 +30,7 @@
                 <HeaderTitle>
                   Explanation
                 </HeaderTitle>
-                <ul>
+                <ul class="line">
                   <li>
                     <code>SynergyScore</code> represents the mean delta score computed by the ZIP model, indicatng the synergistic effect or antagonistic effect between the pair of drug combinations. Formally, the drug combinations with ZIP score greater than 0 are classified as synergistic ones, otherwise antagonistic ones.
                   </li>
@@ -52,7 +52,10 @@
     </Dialog>
     <Dialog v-if="showCellLineDialog" @closeDialog="showCellLineDialog = false">
       <!--  Todo:收集细胞系的gene expressions    -->
-      <p>显示细胞系相关数据</p>
+      <p>To show cell line's gene expressions</p>
+      <div>
+        No Results ....
+      </div>
     </Dialog>
   </FullPage>
 </template>

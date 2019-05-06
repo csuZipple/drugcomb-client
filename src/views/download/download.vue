@@ -31,7 +31,7 @@
           <p class="title">Descriptions</p>
           <div class="description">
             <p class="description-title">Combination.csv</p>
-            <ul>
+            <ul class="tips">
               <li>id: key</li>
               <li>fid: foreign key</li>
               <li>source: the origin data</li>
@@ -43,7 +43,7 @@
               <li>cellline: The name of the cancer cell line</li>
             </ul>
             <p class="description-title">Integration.csv</p>
-            <ul>
+            <ul class="tips">
               <li>id: key</li>
               <li>fid: foreign key</li>
               <li>source: the origin data</li>

@@ -7,16 +7,11 @@
         </HeaderTitle>
         <div class="drug-info">
           <template v-if="drugProteinLinks && drugProteinLinks.links.length">
-            <DrugProteinNetworks :drugProteinLinks="drugProteinLinks"/>
-            <HeaderTitle>
-              Proteins's ID
-            </HeaderTitle>
-            <ul style="padding: 10px 0;">
-              <li v-if="index !== 0" v-for="(item, index) in drugProteinLinks.nodes" :key="index">{{item.id}}</li>
-            </ul>
-            <p style="color: #2b85e4; font-style: italic; font-family: Georgia, serif">
-              Will fill the protein data soon...
-            </p>
+            <DrugProteinNetworks :width="400" :height="400" :drugProteinLinks="drugProteinLinks"/>
+            <template v-if="drug_protein_table.length">
+              <SimpleTable :header="Object.keys(drug_protein_table[0])" :body="drug_protein_table"/>
+              <Page show-elevator show-total  @pageClick="handleChangePage" :total="total" :current="pageNum" :page-size="pageSize" @changePage="handleChangePage" @pageSizeChange="handlePageSizeChange"/>
+            </template>
           </template>
           <div v-else>
             No Results...
@@ -42,11 +37,13 @@
 <script>
 import FullPage from '../../components/FullPage/FullPage'
 import HeaderTitle from '../../components/Header/HeaderTitle'
-import {getDrugInfoByDrugName, getDrugProteinLinksInformation} from '../../api/api'
+import {getDrugInfoByDrugName, getDrugProteinLinksInformation, getDrugProteinLinksPages} from '../../api/api'
 import DrugProteinNetworks from '../../components/Visualization/DrugProteinNetworks'
+import SimpleTable from '../../components/Table/SimpleTable'
+import Page from '../../components/Paging/Paging'
 export default {
   name: 'drugDetail',
-  components: {DrugProteinNetworks, HeaderTitle, FullPage},
+  components: {Page, SimpleTable, DrugProteinNetworks, HeaderTitle, FullPage},
   mounted () {
     const drugName = this.$route.query.drugName
     this.drugName = drugName
@@ -63,6 +60,10 @@ export default {
         getDrugProteinLinksInformation(data.cIds).then(data => {
           this.drugProteinLinks = data
         })
+        getDrugProteinLinksPages(data.cIds, this.pageNum, this.pageSize).then(data => {
+          this.drug_protein_table = data
+          this.total = data.total
+        })
       })
     }
   },
@@ -70,7 +71,11 @@ export default {
     return {
       drugInfo: null,
       drugName: '',
-      drugProteinLinks: null
+      drugProteinLinks: null,
+      drug_protein_table: [],
+      pageNum: 1,
+      pageSize: 10,
+      total: -1
     }
   }
 }

@@ -65,7 +65,15 @@ export const getDrugProteinLinksInformation = drugId => {
     timeout: 30000
   })
 }
-
+export const getDrugProteinLinksPages = (drugId, page, size) => {
+  return axios.get(`/proteins/${drugId}/page`, {
+    timeout: 30000,
+    params: {
+      page,
+      size
+    }
+  })
+}
 export const downloadFileByIndex = index => {
   return axios.post(`/download/${index}`, {}, {
     timeout: 60000,
