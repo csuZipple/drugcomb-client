@@ -76,17 +76,26 @@
     <div class="legend-container">
       <p class="title">Legend</p>
       <div class="legend">
-        <img src="../../assets/protein.png" alt="">
-        <p>
-          Proteins.....
-        </p>
-      </div>
-      <div class="legend">
         <img src="../../assets/drug.png" alt="">
         <p>
           Drug: {{drugName}}
         </p>
       </div>
+      <div class="legend">
+        <img src="../../assets/protein.png" alt="">
+        <p>
+          Proteins
+        </p>
+      </div>
+      <p class="title">Tips</p>
+      <ul>
+        <li>
+          Proteins in network only show the top 10 items
+        </li>
+        <li>
+          Table shows the detail information about drug-protein-links
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -112,7 +121,7 @@ export default {
       const width = this.width
       const height = this.height
       const graph = this.drugProteinLinks
-      const distanceScale = d3.scaleLinear().domain([0, this.maxScore]).range([0, 200])
+      const distanceScale = d3.scaleLinear().domain([0, this.maxScore]).range([100, 200])
       const simulation = d3.forceSimulation().force('link', d3.forceLink().id(d => d.id).distance(d => distanceScale(d.score)))
         .force('collide', d3.forceCollide().radius(this.radius + 1).iterations(2))
         .force('charge', d3.forceManyBody())
@@ -256,6 +265,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import "../../assets/style/main";
   .drug-protein-container{
     display: flex;
     justify-content: space-between;
