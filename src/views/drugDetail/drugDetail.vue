@@ -45,26 +45,48 @@ export default {
   name: 'drugDetail',
   components: {Page, SimpleTable, DrugProteinNetworks, HeaderTitle, FullPage},
   mounted () {
-    const drugName = this.$route.query.drugName
-    this.drugName = drugName
-    if (drugName === '') {
-      this.$message({
-        type: 'error',
-        text: 'Path Error'
-      })
-    } else {
-      getDrugInfoByDrugName(drugName).then(data => {
-        this.drugInfo = data
-        return data
-      }).then(data => {
-        getDrugProteinLinksInformation(data.cIds).then(data => {
-          this.drugProteinLinks = data
+    this.fetchData()
+  },
+  methods: {
+    fetchData () {
+      const drugName = this.$route.query.drugName
+      this.drugName = drugName
+      if (drugName === '') {
+        this.$message({
+          type: 'error',
+          text: 'Path Error'
         })
-        getDrugProteinLinksPages(data.cIds, this.pageNum, this.pageSize).then(data => {
-          this.drug_protein_table = data
+      } else {
+        getDrugInfoByDrugName(drugName).then(data => {
+          this.drugInfo = data
+          return data
+        }).then(data => {
+          getDrugProteinLinksInformation(data.cIds).then(data => {
+            this.drugProteinLinks = data
+          })
+          this.updateTableData()
+        })
+      }
+    },
+    updateTableData () {
+      if (this.drugInfo.cIds) {
+        getDrugProteinLinksPages(this.drugInfo.cIds, this.pageNum, this.pageSize).then(data => {
+          this.drug_protein_table = data.page
           this.total = data.total
         })
-      })
+      } else {
+        this.$message({
+          text: 'drug ID is null',
+          type: 'error'
+        })
+      }
+    },
+    handleChangePage (index) {
+      this.pageNum = index > Math.ceil(this.total / this.pageSize) ? Math.ceil(this.total / this.pageSize) : Number(index)
+    },
+    handlePageSizeChange (current, size) {
+      this.pageNum = current
+      this.pageSize = size
     }
   },
   data () {
@@ -76,6 +98,14 @@ export default {
       pageNum: 1,
       pageSize: 10,
       total: -1
+    }
+  },
+  watch: {
+    pageNum () {
+      this.updateTableData()
+    },
+    pageSize () {
+      this.updateTableData()
     }
   }
 }

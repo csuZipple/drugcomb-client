@@ -93,7 +93,7 @@
           Proteins in network only show the top 10 items
         </li>
         <li>
-          Table shows the detail information about drug-protein-links
+          Table shows the all detail information about drug-protein-links
         </li>
       </ul>
     </div>

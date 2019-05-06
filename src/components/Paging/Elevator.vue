@@ -18,7 +18,7 @@ export default {
       } else {
         this.$message({
           type: 'warn',
-          text: '请输入合法的页数'
+          text: 'Please input valid page number'
         })
         e.target.value = ''
       }
