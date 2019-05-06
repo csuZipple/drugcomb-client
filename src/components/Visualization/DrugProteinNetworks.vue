@@ -88,7 +88,7 @@
         </p>
       </div>
       <p class="title">Tips</p>
-      <ul>
+      <ul class="line">
         <li>
           Proteins in network only show the top 10 items
         </li>
