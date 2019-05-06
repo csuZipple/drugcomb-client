@@ -6,7 +6,7 @@
           Drug-Detail-Information
         </HeaderTitle>
         <div class="drug-info">
-          <template v-if="drugProteinLinks.links.length">
+          <template v-if="drugProteinLinks && drugProteinLinks.links.length">
             <DrugProteinNetworks :drugProteinLinks="drugProteinLinks"/>
             <HeaderTitle>
               Proteins's ID
