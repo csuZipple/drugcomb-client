@@ -78,7 +78,7 @@
       <div class="legend">
         <img src="../../assets/drug.png" alt="">
         <p>
-          Drug: {{drugName}}
+          Drug
         </p>
       </div>
       <div class="legend">
@@ -160,7 +160,12 @@ export default {
 
       graph.nodes[0].fx = width / 2
       graph.nodes[0].fy = height / 2
-      node.append('title').text(d => d.id)
+      node.append('title').text(d => d.protein ? d.protein.annotation : d.id)
+      node.append('text')
+        .attr('fill', 'black')
+        .style('font-size', '16px')
+        .text(d => d.protein ? d.protein.preferredName : 'None')
+
       simulation.nodes(graph.nodes).on('tick', () => {
         link
           .attr('x1', function (d) { return d.source.x })
@@ -176,6 +181,14 @@ export default {
         node.selectAll('circle')
           .attr('cx', function (d) { return d.x })
           .attr('cy', function (d) { return d.y })
+
+        node.selectAll('text')
+          .attr('x', d => d.x - this.radius)
+          .attr('y', d => d.y + 2 * this.radius)
+
+        nodeContainer.select('.rect').select('text')
+          .attr('x', this.drugProteinLinks.nodes[0].x - 35)
+          .attr('y', this.drugProteinLinks.nodes[0].y + 30)
       })
       simulation.force('link').links(graph.links)
     },
@@ -213,6 +226,7 @@ export default {
     },
     generateRect (container, width = this.width / 2 - 5, height = this.height / 2, rectHeight = 30) {
       const g = container.append('g')
+      g.attr('class', 'rect')
       const w = rectHeight / 2
       const path = `M${width - w},${height - w} A15,15 0 0,0 ${width - w},${height + w} L${width + rectHeight},${height + w} A15,15 0 0,0 ${width + rectHeight},${height - w} z`
       const transform1 = `translate(${width - rectHeight},${height - w}) translate(0,10) scale(1,0.75) translate(-${width - rectHeight},-${height - w})`
@@ -235,6 +249,10 @@ export default {
       g.append('path').attr('d', path)
         .attr('fill', 'url(#pill_brilliance_gradient)')
         .attr('transform', transform2)
+      g.append('text')
+        .attr('fill', 'black')
+        .style('font-size', '16px')
+        .text(this.drugName)
 
       // g.on('click', () => {
       //   console.log('this', this.$emit('centerNodeClick'))

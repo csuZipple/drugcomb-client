@@ -69,7 +69,7 @@ export default {
   @table-color: #f7f7f7;
   @table-border-color: #dadde3;
   table{
-    font-family: Consolas,Menlo,Courier,monospace;
+    /*font-family: Consolas,Menlo,Courier,monospace;*/
     font-size: 12px;
     border-collapse: collapse;
     border-spacing: 0;

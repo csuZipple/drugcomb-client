@@ -17,12 +17,12 @@
                 Agents
               </p>
               <table v-if="drugInfoList.length">
-                <tr><th>OfficialID</th><td><a target="_blank" :href="'https://pubchem.ncbi.nlm.nih.gov/compound/'+ drugInfoList[0].cIds">{{drugInfoList[0].cIds}}</a></td><td><a target="_blank" :href="'https://pubchem.ncbi.nlm.nih.gov/compound/'+ drugInfoList[1].cIds">{{drugInfoList[1].cIds}}</a></td></tr>
-                <tr><th>DrugName</th><td>{{drugInfoList[0].drugName}}</td><td>{{drugInfoList[1].drugName}}</td></tr>
-                <tr><th>OfficialName</th><td>{{drugInfoList[0].drugNameOfficial}}</td><td>{{drugInfoList[1].drugNameOfficial}}</td></tr>
+                <tr><th>Pubchem ID</th><td><a target="_blank" :href="'https://pubchem.ncbi.nlm.nih.gov/compound/'+ drugInfoList[0].cIds">{{drugInfoList[0].cIds}}</a></td><td><a target="_blank" :href="'https://pubchem.ncbi.nlm.nih.gov/compound/'+ drugInfoList[1].cIds">{{drugInfoList[1].cIds}}</a></td></tr>
+                <tr><th>Drug Name</th><td>{{drugInfoList[0].drugName}}</td><td>{{drugInfoList[1].drugName}}</td></tr>
+                <tr><th>Official Name</th><td>{{drugInfoList[0].drugNameOfficial}}</td><td>{{drugInfoList[1].drugNameOfficial}}</td></tr>
                 <tr><th>Structure</th><td><img :src="drugInfoList[0].originImgUrl" alt="ChemicalStructure"/></td><td><img :src="drugInfoList[1].originImgUrl" alt="ChemicalStructure"/></td></tr>
-                <tr><th>MolecularWeight</th><td>{{drugInfoList[0].molecularWeight}}</td><td>{{drugInfoList[1].molecularWeight}}</td></tr>
-                <tr><th>SmilesString</th><td>{{drugInfoList[0].smilesString}}</td><td>{{drugInfoList[1].smilesString}}</td></tr>
+                <tr><th>Molecular Weight</th><td>{{drugInfoList[0].molecularWeight}}</td><td>{{drugInfoList[1].molecularWeight}}</td></tr>
+                <tr><th>Smiles String</th><td>{{drugInfoList[0].smilesString}}</td><td>{{drugInfoList[1].smilesString}}</td></tr>
                 <tr><th>Relative</th><td colspan="2"><a href="https://pubchem.ncbi.nlm.nih.gov/" target="_blank">Pubchem</a>、<a target="_blank" href="http://stitch.embl.de/cgi/input.pl?UserId=T1zxeKQ17paY&sessionId=lqPqezatuxhA">STITCH</a></td></tr>
               </table>
             </div>
@@ -125,9 +125,9 @@ export default {
           width: calc(100% - 520px);
           padding: 10px;
           transition: all 0.3s;
-          &:hover{
+/*          &:hover{
             box-shadow: 0 30px 30px -10px rgba(33,71,109,0.3), 0 0 20px -2px rgba(15,81,148,0.2);
-          }
+          }*/
 
           .title{
             padding: 10px 0 20px;
@@ -136,7 +136,7 @@ export default {
           table{
             width: 100%;
             padding: 8px;
-            font-family: Consolas,Menlo,Courier,monospace;
+            /*font-family: Consolas,Menlo,Courier,monospace;*/
             font-size: 12px;
             border-collapse: collapse;
             border-spacing: 0;
@@ -149,7 +149,7 @@ export default {
               word-wrap:break-word;
               word-break:break-all;
               img{
-                width: 100%;
+                width: 200px;
                 object-fit: contain;
               }
               a{

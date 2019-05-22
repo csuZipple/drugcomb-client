@@ -32,6 +32,7 @@ export default {
   .search-wrapper{
     height: 35px;
     input{
+      width: 480px;
       height: 100%;
       padding: 0 12px;
       border-radius: 5px;

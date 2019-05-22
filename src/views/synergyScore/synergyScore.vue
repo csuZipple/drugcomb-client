@@ -8,12 +8,12 @@
         <div class="content">
           <div style="padding: 10px;">
             <Search :value="keyword" @search="handleSearch"/>
-            <div class="search-tips">
-              <ul class="line">
-                <li>single drug <span v-if="keyword.split(' - ').length <= 1 && keyword !== ''">: &nbsp;<code >{{ keyword}}</code></span></li>
-                <li>drug combination<span v-if="keyword.split(' - ').length > 1">: &nbsp;<code >{{ keyword}}</code></span></li>
-              </ul>
-            </div>
+<!--            <div class="search-tips">-->
+<!--              <ul class="line">-->
+<!--                <li>single drug <span v-if="keyword.split(' - ').length <= 1 && keyword !== ''">: &nbsp;<code >{{ keyword}}</code></span></li>-->
+<!--                <li>drug combination<span v-if="keyword.split(' - ').length > 1">: &nbsp;<code >{{ keyword}}</code></span></li>-->
+<!--              </ul>-->
+<!--            </div>-->
           </div>
           <template v-if="tableData.length">
               <SimpleTable :header="Object.keys(tableData[0])" :body="tableData" :linkIndexList="[2,3,4,5]" @itemClicked="handleItemClicked"/>

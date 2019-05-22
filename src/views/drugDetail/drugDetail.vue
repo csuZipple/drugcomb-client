@@ -7,7 +7,7 @@
         </HeaderTitle>
         <div class="drug-info">
           <template v-if="drugProteinLinks && drugProteinLinks.links.length">
-            <DrugProteinNetworks :width="410" :height="410" :drugProteinLinks="drugProteinLinks"/>
+            <DrugProteinNetworks :width="450" :height="410" :drugProteinLinks="drugProteinLinks"/>
             <div v-if="drug_protein_table.length" style="padding: 8px 0;">
               <SimpleTable :header="Object.keys(drug_protein_table[0])" :body="drug_protein_table"/>
               <Page show-elevator show-total  @pageClick="handleChangePage" :total="total" :current="pageNum" :page-size="pageSize" @changePage="handleChangePage" @pageSizeChange="handlePageSizeChange"/>

@@ -160,15 +160,21 @@ export default {
             justify-content: center;
             align-items: center;
             li{
-              height: 100%;
               margin: 0 5px;
+              padding: 5px;
               display: flex;
               align-items: center;
               justify-content: center;
               cursor: default;
               transition: all 0.3s;
+              border: 1px solid @blue;
+              background: #eeeeee;
+              font-weight: 400;
+              color: @blue;
               &:hover{
-                text-decoration: underline;
+                background-color: @blue;
+                border-color: #FFFFFF;
+                color: #FFFFFF;
               }
             }
           }

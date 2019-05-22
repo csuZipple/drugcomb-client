@@ -1,8 +1,8 @@
 <template>
   <div class="rect-container">
     <div class="tab">
-      <div @click="showZip = true" :class="{'active': showZip}">Response</div>
-      <div @click="showZip = false" :class="{'active': !showZip}">Δ Bliss</div>
+      <div @click="showZip = true" :class="{'active': showZip}">Raw response matrix</div>
+      <div @click="showZip = false" :class="{'active': !showZip}">Δ Bliss matrix</div>
     </div>
     <div class="multi-rect"></div>
     <div class="btn-container">
@@ -178,7 +178,8 @@ export default {
       color: @theme-color;
       margin-bottom: -1px;
       border-bottom: 1px solid #ddd;
-
+      user-select: none;
+      cursor: default;
       display: flex;
       align-items: center;
       justify-content: center;
