@@ -1,7 +1,7 @@
 <template>
     <header>
       <div class="tab-container">
-        <img class="logo" src="../../assets/logo.png" alt="" @click="$router.push({path: `/main`})">
+        <img class="logo" src="../../assets/db-logo.png" alt="" @click="$router.push({path: `/main`})">
         <div :class="{'tab-active': current === index}" v-for="(item, index) in headerTextList" :key="index" @click="handlePageClick(index)">{{item}}</div>
       </div>
     </header>
@@ -20,8 +20,8 @@ export default {
   },
   data () {
     return {
-      headerTextList: ['Home', 'Combination', 'Download', 'Tutorial', 'Api'],
-      headerPageLink: ['/main', '/synergyScore', '/download', '/tutorial', '/api']
+      headerTextList: ['Home', 'Combination', 'Tutorial', 'Api'], // ['Home', 'Combination', 'Download', 'Tutorial', 'Api']
+      headerPageLink: ['/main', '/synergyScore', '/tutorial', '/api'] // ['/main', '/synergyScore', '/download', '/tutorial', '/api']
     }
   },
   computed: {

@@ -168,6 +168,8 @@ export default {
               cursor: default;
               transition: all 0.3s;
               border: 1px solid @blue;
+              border-radius: 5px;
+              white-spacing: nowrap;
               background: #eeeeee;
               font-weight: 400;
               color: @blue;

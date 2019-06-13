@@ -13,21 +13,24 @@
               <Page show-elevator show-total  @pageClick="handleChangePage" :total="total" :current="pageNum" :page-size="pageSize" @changePage="handleChangePage" @pageSizeChange="handlePageSizeChange"/>
             </div>
           </template>
-          <div v-else>
-            No Results...
+          <div v-if="!error && !drugProteinLinks">
+            Loading...
+          </div>
+          <div v-if="!error && drugProteinLinks && !drugProteinLinks.links.length">
+            No Results.
           </div>
         </div>
         <HeaderTitle>
-          Clinical-Response
+          Indication
         </HeaderTitle>
         <div class="clinical-response">
-          Clinical response
+          {{drugInfoExtra ? drugInfoExtra.indication : 'The data is about to be added...'}}
         </div>
         <HeaderTitle>
-          Side-Effects
+          PharmacoDynamics
         </HeaderTitle>
         <div class="side-effects">
-          Side-Effects
+          {{drugInfoExtra ? drugInfoExtra.pharmacoDynamics : 'The data is about to be added...'}}
         </div>
       </div>
     </section>
@@ -37,7 +40,7 @@
 <script>
 import FullPage from '../../components/FullPage/FullPage'
 import HeaderTitle from '../../components/Header/HeaderTitle'
-import {getDrugInfoByDrugName, getDrugProteinLinksInformation, getDrugProteinLinksPages} from '../../api/api'
+import {getDrugInfoByDrugName, getDrugInfoExtraByDrugId, getDrugProteinLinksInformation, getDrugProteinLinksPages} from '../../api/api'
 import DrugProteinNetworks from '../../components/Visualization/DrugProteinNetworks'
 import SimpleTable from '../../components/Table/SimpleTable'
 import Page from '../../components/Paging/Paging'
@@ -64,7 +67,16 @@ export default {
           getDrugProteinLinksInformation(data.cIds).then(data => {
             this.drugProteinLinks = data
           })
+          getDrugInfoExtraByDrugId(data.cIds).then(data => {
+            this.drugInfoExtra = data
+          })
           this.updateTableData()
+        }).catch(err => {
+          this.error = true
+          this.$message({
+            type: 'error',
+            text: 'Loading data error! 【ERROR】: ' + JSON.stringify(err)
+          })
         })
       }
     },
@@ -94,6 +106,8 @@ export default {
       drugInfo: null,
       drugName: '',
       drugProteinLinks: null,
+      error: false,
+      drugInfoExtra: null,
       drug_protein_table: [],
       pageNum: 1,
       pageSize: 10,

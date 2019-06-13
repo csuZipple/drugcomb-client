@@ -31,6 +31,9 @@ export const getIndividualDrugIntegrationByBlockId = (blockId) => {
 export const getDrugInfoByDrugName = name => {
   return axios.get(`/chemical/info/${name}`)
 }
+export const getDrugInfoExtraByDrugId = id => {
+  return axios.get(`/chemical/extra/${id}`)
+}
 
 export const getCellLineInfoByBlockId = (blockId) => {
   return new Promise((resolve, reject) => {

@@ -70,7 +70,7 @@ export default {
   @table-border-color: #dadde3;
   table{
     /*font-family: Consolas,Menlo,Courier,monospace;*/
-    font-size: 12px;
+    font-size: 14px;
     border-collapse: collapse;
     border-spacing: 0;
     empty-cells: show;
