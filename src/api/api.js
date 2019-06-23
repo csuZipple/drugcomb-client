@@ -79,7 +79,7 @@ export const getDrugProteinLinksPages = (drugId, page, size) => {
 }
 export const downloadFileByIndex = index => {
   return axios.post(`/download/${index}`, {}, {
-    timeout: 60000,
+    timeout: Infinity,
     isCompleteResponse: true,
     responseType: 'blob'
   })

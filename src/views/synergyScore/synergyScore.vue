@@ -34,7 +34,7 @@
                   <li>
                     <code>SynergyScore</code> represents the mean delta score computed by the ZIP model, indicatng the synergistic effect or antagonistic effect between the pair of drug combinations. Formally, the drug combinations with ZIP score greater than 0 are classified as synergistic ones, otherwise antagonistic ones.
                   </li>
-                  <li><code>MostSynergisticAreaScore</code> represents ......</li>
+<!--                  <li><code>MostSynergisticAreaScore</code> represents ......</li>-->
                 </ul>
               </div>
           </template>

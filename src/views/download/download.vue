@@ -61,16 +61,30 @@ export default {
   methods: {
     handleSearch (keyword) {
       this.keyword = keyword
-      this.$message('暫未實現該功能')
+      this.$message('This feature has not been implemented yet.')
     },
     handleDownLoad (index, fileName) {
       downloadFileByIndex(index).then(res => {
-        const url = window.URL.createObjectURL(new Blob([res.data]))
+        console.log(res.data instanceof Blob)
+        const testBlob = res.data.slice(0)
+        const reader = new FileReader()
+        reader.readAsText(testBlob, 'utf-8')
+        reader.onload = function (evt) {
+          // 到底是后台返回的数据乱码了 还是前端接收数据流的时候创建的blob乱码了--
+          console.log(evt)
+          const url = window.URL.createObjectURL(new Blob(['\uFEFF' + evt.target.result], {type: 'text/plain;charset=utf-8'}))
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', `${fileName}`)
+          document.body.appendChild(link)
+          link.click()
+        }
+        /*        const url = window.URL.createObjectURL(res.data)
         const link = document.createElement('a')
         link.href = url
         link.setAttribute('download', `${fileName}`)
         document.body.appendChild(link)
-        link.click()
+        link.click() */
       })
     }
   },

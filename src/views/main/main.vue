@@ -4,7 +4,7 @@
       <div class="search-wrapper">
         <h2 class="title">Explore Drug Combinations</h2>
         <p class="search-tips">
-          Quickly find chemical information from authoritative sources.
+          Quickly find synergistic drugs from authoritative sources.
         </p>
         <div class="search">
           <div class="search-component">
@@ -22,29 +22,23 @@
     </section>
     <section class="data-statistics">
       <div>
-        <Statistic :number="561" unit="" info="Single Drugs"/>
-        <Statistic :number="105752" unit="" info="Combinations"/>
-        <Statistic :number="1127969" unit="" info="Experiments"/>
-        <Statistic :number="104" unit="" info="Cell Lines"/>
+        <Statistic :number="2879" unit="" info="Single Drugs"/>
+        <Statistic :number="138076" unit="" info="Combinations"/>
+        <Statistic :number="4226900" unit="" info="Data points"/>
+        <Statistic :number="124" unit="" info="Cell Lines"/>
       </div>
     </section>
     <section class="article-container">
       <h2>What is DrugCombDB?</h2>
       <article>
         <p>
-          Drug combinations have demonstrated high efficacy and low adverse side effects compared to single drug administrations in cancer therapies, and thus draw intensive attentions from researchers and pharmaceutical enterprises.
+          DrugCombDB is a comprehensive database dedicated to integrating drug combinations from various data sources, include 1) high-throughput screening assays of drug combinations, 2) external databases, and 3)manual curations from PubMed literature. In total, DrugCombDB includes 4,226,900 experimental data points with quantitative dose response and concentrations of drug combinations covering 2879 unique drugs and 124 human cancer cell lines, and 138,076 FDA approved or literature-supported drug combinations.
         </p>
         <p>
-          Thanks to the fast development of high-throughput screening (HTS) methods, the amount of available drug combination dadaists has tremendously increased.
+          To the best of our knowledge, DrugCombDB is the first comprehensive database with the largest number of drug combinations to date. We believe it would greatly facilitate and accelerate the discovery of novel synergistic drugs for the therapy of complex diseases, especially for the cancers developed drug resistance. In particular, we computed the scores determining the synergy or antagonism of two drugs. To facilitate the downstream usage of our data resource, we prepared multiple datasets that are ready for building prediction models of classification and regression analysis.
         </p>
         <p>
-          However, existing database <a href="http://www.cls.zju.edu.cn/dcdb/" target="_blank">DCDB</a>, which has not been updated since 2014, covers only 1,363 drug combination annotations extracted from FDA orange books and records of clinical trials using the text-mining technique, which are lack of indications of the drug combinations and quantitative dose-responses.
-        </p>
-        <p>
-          Therefore, there is an urgent need for a comprehensive database that is crucial to both experimental and computational screening of drug combinations.
-        </p>
-        <p>
-          <a class="more" href="/about">Learn More About DrugCombDB</a>
+          A website with user-friendly data visualization is provided to help users access the wealth of data. Users can input a drug of interest to retrieve associated drug combinations, together with the supporting evidence sources and drug targets. The dose responses and drugs concentrations with respect to cancer cell lines are displayed in interactive scatter plots.
         </p>
       </article>
     </section>
@@ -148,11 +142,12 @@ export default {
         }
         .recommend{
           padding-left: 20px;
+          height: 100px;
           display: flex;
           .tag{
             display: inline-block;
             height: 100%;
-            line-height: 60px;
+            line-height: 100px;
           }
           ul{
             margin-left: 20px;
@@ -169,8 +164,8 @@ export default {
               cursor: default;
               transition: all 0.3s;
               border: 1px solid @blue;
-              border-radius: 5px;
-              white-spacing: nowrap;
+              border-radius: 15px;
+              white-space: nowrap;
               background: #eeeeee;
               font-weight: 400;
               color: @blue;
