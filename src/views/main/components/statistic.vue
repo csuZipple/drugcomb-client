@@ -51,8 +51,12 @@ export default {
       }
     }
     .info{
+      max-width: 150px;
       align-self: flex-end;
       margin-left: 5px;
+      font-size: 18px;
+      font-weight: bolder;
+      white-space: nowrap;
     }
   }
 </style>

@@ -3,11 +3,11 @@
     <section class="synergy-score-container">
       <div>
         <HeaderTitle>
-          Drug-Combinations
+          Drug Combinations
         </HeaderTitle>
         <div class="content">
           <div style="padding: 10px;">
-            <Search :value="keyword" @search="handleSearch"/>
+            <Search before-text="Input drug name(s):" @input="handleInput" :tips="tips" :value="keyword" @search="handleSearch"/>
 <!--            <div class="search-tips">-->
 <!--              <ul class="line">-->
 <!--                <li>single drug <span v-if="keyword.split(' - ').length <= 1 && keyword !== ''">: &nbsp;<code >{{ keyword}}</code></span></li>-->
@@ -67,6 +67,7 @@ import Search from '../../components/Header/Search'
 import Dialog from '../../components/Dialog/Dialog'
 import Response from '../response/response'
 import CellLine from './components/cellLine'
+import {throttle} from '../../utils/util'
 export default {
   name: 'synergyScore',
   components: {CellLine, Response, Dialog, Search, Page, SimpleTable, Options, HeaderTitle, FullPage},
@@ -75,8 +76,25 @@ export default {
       if (keyword !== this.keyword) {
         this.keyword = keyword
         this.pageNum = 1
+        this.tips = [] // close tips
         this.updateTableData()
       }
+    },
+    handleInput (keyword) {
+      if (keyword !== this.keyword) {
+        this.keyword = keyword
+      }
+      throttle(this.onInputSearch, null, [keyword])
+    },
+    onInputSearch (keyword) {
+      if (keyword === '') return
+      searchDrugPages(keyword, 1, 100).then(data => {
+        if (data.total) {
+          this.tips = data.page.map(item => item.drugCombination)
+        } else {
+          this.$message('Can not find a drug containing this word.')
+        }
+      })
     },
     handleItemClicked (col, key, obj) {
       switch (key.toLowerCase()) {
@@ -150,7 +168,8 @@ export default {
       keyword: '',
       blockId: -1,
       showResponseMatrix: false,
-      showCellLineDialog: false
+      showCellLineDialog: false,
+      tips: [] // search tips
     }
   },
   watch: {

@@ -1,5 +1,5 @@
 <template>
-  <span>{{easingNumber | toFixed(0)}}</span>
+  <span>{{strEasingNumber}}</span>
 </template>
 
 <script>
@@ -40,6 +40,12 @@ export default {
   watch: {
     number (n) {
       this.handleNumberChange(n)
+    }
+  },
+  computed: {
+    strEasingNumber () {
+      const reg = /(?=(\B\d{3})+$)/g
+      return this.easingNumber.toFixed(0).toString().replace(reg, ',')
     }
   }
 }

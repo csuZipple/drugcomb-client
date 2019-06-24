@@ -86,12 +86,17 @@ export default {
         border-color: @table-color;
       }
     }
+
+    tr:nth-child(2n-1){
+      background: @table-color;
+    }
+
     th{
       background: @table-color;
       color: #5c6b77;
       font-weight: 600;
       cursor: default;
-      text-transform: uppercase;
+      text-transform: capitalize;
     }
     th,td{
       border: 1px solid @table-border-color;

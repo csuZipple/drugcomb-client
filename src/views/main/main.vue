@@ -2,9 +2,9 @@
   <FullPage>
     <section class="search-container">
       <div class="search-wrapper">
-        <h2 class="title">Explore Drug Combinations</h2>
+        <h2 class="title">Explore DrugCombDB</h2>
         <p class="search-tips">
-          Quickly find synergistic drugs from authoritative sources.
+          Quickly find synergistic drugs from integrative sources.
         </p>
         <div class="search">
           <div class="search-component">
@@ -12,7 +12,7 @@
             <button @click="handleSearch"></button>
           </div>
           <div class="recommend">
-            <span class="tag">Try</span>
+            <span class="tag">Examples:</span>
             <ul>
               <li v-for="(item, index) in recommendList" :key = index @click="handleRecommendItemClicked(item)">{{item}}</li>
             </ul>
@@ -161,7 +161,7 @@ export default {
               display: flex;
               align-items: center;
               justify-content: center;
-              cursor: default;
+              cursor: pointer;
               transition: all 0.3s;
               border: 1px solid @blue;
               border-radius: 15px;
