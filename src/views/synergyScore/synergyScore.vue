@@ -87,7 +87,10 @@ export default {
       throttle(this.onInputSearch, null, [keyword])
     },
     onInputSearch (keyword) {
-      if (keyword === '') return
+      if (keyword === '') {
+        this.tips = [] // close tips
+        return
+      }
       searchDrugPages(keyword, 1, 100).then(data => {
         if (data.total) {
           this.tips = data.page.map(item => item.drugCombination)
