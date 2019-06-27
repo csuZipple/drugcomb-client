@@ -8,35 +8,26 @@
         <div class="content">
           <div style="padding: 10px;">
             <Search before-text="Input drug name(s):" @input="handleInput" :tips="tips" :value="keyword" @search="handleSearch"/>
-<!--            <div class="search-tips">-->
-<!--              <ul class="line">-->
-<!--                <li>single drug <span v-if="keyword.split(' - ').length <= 1 && keyword !== ''">: &nbsp;<code >{{ keyword}}</code></span></li>-->
-<!--                <li>drug combination<span v-if="keyword.split(' - ').length > 1">: &nbsp;<code >{{ keyword}}</code></span></li>-->
-<!--              </ul>-->
-<!--            </div>-->
+            <!--            <div class="search-tips">-->
+            <!--              <ul class="line">-->
+            <!--                <li>single drug <span v-if="keyword.split(' - ').length <= 1 && keyword !== ''">: &nbsp;<code >{{ keyword}}</code></span></li>-->
+            <!--                <li>drug combination<span v-if="keyword.split(' - ').length > 1">: &nbsp;<code >{{ keyword}}</code></span></li>-->
+            <!--              </ul>-->
+            <!--            </div>-->
           </div>
           <template v-if="tableData.length">
-              <SimpleTable :header="Object.keys(tableData[0])" :body="tableData" :linkIndexList="[2,3,5]" @itemClicked="handleItemClicked"/>
-              <Page show-elevator show-total  @pageClick="handleChangePage" :total="total" :current="pageNum" :page-size="pageSize" @changePage="handleChangePage" @pageSizeChange="handlePageSizeChange"/>
-              <div class="table-tips">
-                <HeaderTitle>
-                  Tips
-                </HeaderTitle>
-                <ul class="line">
-                  <li>Clicking Single <code>Drug</code> item will jump to drug information detail page.</li>
-                  <li>Clicking <code>CellName</code> can get more information about cell line and disease.</li>
-                  <li>Clicking <code>SynergyScore</code> will get response matrix with popup dialog.</li>
-                </ul>
-                <HeaderTitle>
-                  Explanation
-                </HeaderTitle>
-                <ul class="line">
-                  <li>
-                    <code>SynergyScore</code> represents the mean delta score computed by the ZIP model, indicatng the synergistic effect or antagonistic effect between the pair of drug combinations. Formally, the drug combinations with ZIP score greater than 0 are classified as synergistic ones, otherwise antagonistic ones.
-                  </li>
-<!--                  <li><code>MostSynergisticAreaScore</code> represents ......</li>-->
-                </ul>
-              </div>
+            <SimpleTable :header="Object.keys(tableData[0])" :body="tableData" :linkIndexList="[2,3,5]" @itemClicked="handleItemClicked"/>
+            <Page show-elevator show-total  @pageClick="handleChangePage" :total="total" :current="pageNum" :page-size="pageSize" @changePage="handleChangePage" @pageSizeChange="handlePageSizeChange"/>
+            <div class="table-tips">
+              <HeaderTitle>
+                Tips
+              </HeaderTitle>
+              <ul class="line">
+                <li>Clicking Single <code>Drug</code> item will jump to drug information detail page.</li>
+                <li>Clicking <code>CellName</code> can get more information about cell line and disease.</li>
+                <li>Clicking <code>SynergyScore</code> will get response matrix with popup dialog. <code>SynergyScore</code> represents the synergistic or antagonistic effect between the pair of drug combinations. Formally, the drug combinations with score greater than 0 are classified as synergistic ones, otherwise antagonistic ones.</li>
+              </ul>
+            </div>
           </template>
           <div class="not-found" v-else>
             <img src="" alt="">

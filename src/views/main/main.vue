@@ -8,8 +8,11 @@
         </p>
         <div class="search">
           <div class="search-component">
-            <input type="search" @keyup.enter="handleSearch" v-model="keyword" spellcheck="false"/>
+            <input @input="handleInput" type="search" @keyup.enter="handleSearch" v-model="keyword" spellcheck="false"/>
             <button @click="handleSearch"></button>
+            <ul class="search-tips" v-show="tips.length!==0">
+              <li @click="handleSearchTipsClicked(item)" v-for="(item, index) in tips" :key="index">{{item}}</li>
+            </ul>
           </div>
           <div class="recommend">
             <span class="tag">Examples:</span>
@@ -22,9 +25,9 @@
     </section>
     <section class="data-statistics">
       <div>
-        <Statistic :number="2879" unit="" info="Single Drugs"/>
-        <Statistic :number="138076" unit="" info="Combinations"/>
-        <Statistic :number="4226900" unit="" info="Data points"/>
+        <Statistic :number="2887" unit="" info="Single Drugs"/>
+        <Statistic :number="436627" unit="" info="Combinations"/>
+        <Statistic :number="6891566" unit="" info="Data points"/>
         <Statistic :number="124" unit="" info="Cell Lines"/>
       </div>
     </section>
@@ -48,7 +51,8 @@
 <script>
 import FullPage from '../../components/FullPage/FullPage'
 import Statistic from './components/statistic'
-import {getRecommendDrugIntegrationList} from '../../api/api'
+import {getRecommendDrugIntegrationList, searchDrugPages} from '../../api/api'
+import {throttle} from '../../utils/util'
 
 export default {
   name: 'home',
@@ -63,6 +67,29 @@ export default {
     handleSearch () {
       this.$router.push(`/synergyScore?q=${encodeURIComponent(this.keyword)}`)
     },
+    handleInput (e) {
+      let keyword = e.target.value.trim()
+      if (keyword !== this.keyword) {
+        this.keyword = keyword
+      }
+      throttle(this.onInputSearch, null, [keyword])
+    },
+    onInputSearch (keyword) {
+      if (keyword === '') {
+        this.tips = [] // close tips
+        return
+      }
+      searchDrugPages(keyword, 1, 100).then(data => {
+        if (data.total) {
+          this.tips = data.page.map(item => item.drugCombination)
+        } else {
+          this.$message('Can not find a drug containing this word.')
+        }
+      })
+    },
+    handleSearchTipsClicked (c) {
+      this.handleRecommendItemClicked(c)
+    },
     handleRecommendItemClicked (name) {
       this.keyword = name
       this.$nextTick(() => {
@@ -73,7 +100,8 @@ export default {
   data () {
     return {
       keyword: '',
-      recommendList: []
+      recommendList: [],
+      tips: [] // search tips
     }
   }
 }
@@ -117,7 +145,29 @@ export default {
           display: flex;
           justify-content: center;
           align-items: center;
-
+          position: relative;
+          .search-tips {
+            position: absolute;
+            left: 0;
+            top: 35px;
+            width: 100%;
+            max-height: 220px;
+            overflow-y: auto;
+            border: 1px solid @border-color;
+            background: #FFFFFF;
+            list-style: none;
+            color: black;
+            li {
+              text-align: left;
+              padding: 5px 10px;
+              transition: all 0.3s;
+              cursor: pointer;
+              &:hover {
+                background: @input-focus-color;
+                color: white;
+              }
+            }
+          }
           input{
             height: 100%;
             width: calc(100% - 60px);

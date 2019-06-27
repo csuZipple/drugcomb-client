@@ -34,6 +34,9 @@ export const getDrugInfoByDrugName = name => {
 export const getDrugInfoExtraByDrugId = id => {
   return axios.get(`/chemical/extra/${id}`)
 }
+export const getDrugInfoDescriptionByDrugId = id => {
+  return axios.get(`/chemical/description/${id}`)
+}
 
 export const getCellLineInfoByBlockId = (blockId) => {
   return new Promise((resolve, reject) => {

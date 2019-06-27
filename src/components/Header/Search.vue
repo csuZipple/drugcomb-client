@@ -82,6 +82,7 @@ export default {
 
         li {
           padding: 5px 10px;
+          transition: all 0.3s;
           &:hover {
             background: @input-focus-color;
             color: white;

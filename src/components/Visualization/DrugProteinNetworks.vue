@@ -74,26 +74,15 @@
       </defs>
     </svg>
     <div class="legend-container">
-      <p class="title">Legend</p>
-      <div class="legend">
-        <img src="../../assets/drug.png" alt="">
-        <p>
-          Drug
-        </p>
-      </div>
-      <div class="legend">
-        <img src="../../assets/protein.png" alt="">
-        <p>
-          Proteins
-        </p>
-      </div>
-      <p class="title">Tips</p>
+      <p class="title">Description</p>
+      <p>{{drugDescription}}</p>
+      <p class="title">Chemical</p>
       <ul class="line">
         <li>
-          Proteins in network only show the top 10 items
+          Weight: {{molecularWeight}}
         </li>
         <li>
-          Table shows the all detail information about drug-protein-links
+          SmilesString: {{smilesString}}
         </li>
       </ul>
     </div>
@@ -109,6 +98,15 @@ export default {
   props: {
     drugProteinLinks: {
       type: Object
+    },
+    drugDescription: {
+      type: String
+    },
+    molecularWeight: {
+      type: String
+    },
+    smilesString: {
+      type: String
     }
   },
   mounted () {

@@ -94,9 +94,6 @@ export const downloadFileByIndex = index => {
   })
 }
           </pre>
-          <p style="padding: 10px;">
-            Todo: explain all API
-          </p>
         </div>
       </div>
     </section>

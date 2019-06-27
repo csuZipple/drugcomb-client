@@ -20,8 +20,8 @@ export default {
   },
   data () {
     return {
-      headerTextList: ['Home', 'Combination', 'Tutorial', 'Api'], // ['Home', 'Combination', 'Download', 'Tutorial', 'Api']
-      headerPageLink: ['/main', '/synergyScore', '/tutorial', '/api'] // ['/main', '/synergyScore', '/download', '/tutorial', '/api']
+      headerTextList: ['Home', 'Combination', 'Download', 'Tutorial', 'Api'], // ['Home', 'Combination', 'Download', 'Tutorial', 'Api']
+      headerPageLink: ['/main', '/synergyScore', '/download', '/tutorial', '/api'] // ['/main', '/synergyScore', '/download', '/tutorial', '/api']
     }
   },
   computed: {
@@ -68,7 +68,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-
+        text-transform: uppercase;
         transition: all 0.3s;
 
         &:hover{

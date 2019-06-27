@@ -7,7 +7,7 @@
         </HeaderTitle>
         <div class="drug-info">
           <template v-if="drugProteinLinks && drugProteinLinks.links.length">
-            <DrugProteinNetworks :width="450" :height="410" :drugProteinLinks="drugProteinLinks"/>
+            <DrugProteinNetworks :width="450" :height="410" :drugProteinLinks="drugProteinLinks" :smiles-string="drugInfo.smilesString" :molecular-weight="drugInfo.molecularWeight" :drug-description="drugDescription"/>
             <div v-if="drug_protein_table.length" style="padding: 8px 0;">
               <SimpleTable :header="Object.keys(drug_protein_table[0])" :body="drug_protein_table"/>
               <Page show-elevator show-total  @pageClick="handleChangePage" :total="total" :current="pageNum" :page-size="pageSize" @changePage="handleChangePage" @pageSizeChange="handlePageSizeChange"/>
@@ -40,7 +40,7 @@
 <script>
 import FullPage from '../../components/FullPage/FullPage'
 import HeaderTitle from '../../components/Header/HeaderTitle'
-import {getDrugInfoByDrugName, getDrugInfoExtraByDrugId, getDrugProteinLinksInformation, getDrugProteinLinksPages} from '../../api/api'
+import {getDrugInfoByDrugName, getDrugInfoExtraByDrugId, getDrugInfoDescriptionByDrugId, getDrugProteinLinksInformation, getDrugProteinLinksPages} from '../../api/api'
 import DrugProteinNetworks from '../../components/Visualization/DrugProteinNetworks'
 import SimpleTable from '../../components/Table/SimpleTable'
 import Page from '../../components/Paging/Paging'
@@ -62,6 +62,7 @@ export default {
       } else {
         getDrugInfoByDrugName(drugName).then(data => {
           this.drugInfo = data
+          console.log(data)
           return data
         }).then(data => {
           getDrugProteinLinksInformation(data.cIds).then(data => {
@@ -69,6 +70,9 @@ export default {
           })
           getDrugInfoExtraByDrugId(data.cIds).then(data => {
             this.drugInfoExtra = data
+          })
+          getDrugInfoDescriptionByDrugId(data.cIds).then(data => {
+            this.drugDescription = data.description
           })
           this.updateTableData()
         }).catch(err => {
@@ -111,7 +115,8 @@ export default {
       drug_protein_table: [],
       pageNum: 1,
       pageSize: 10,
-      total: -1
+      total: -1,
+      drugDescription: ''
     }
   },
   watch: {
