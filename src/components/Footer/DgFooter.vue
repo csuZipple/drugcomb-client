@@ -8,9 +8,9 @@
       <div>
         Author: Changzhou University  & CSU
       </div>
-      <div>
+      <!--<div>
        DataSource: NCI & PMC3926026 & PMC5248573 & PMID26983881
-      </div>
+      </div>-->
     </div>
   </footer>
 </template>

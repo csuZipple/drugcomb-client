@@ -35,14 +35,14 @@
       <h2>What is DrugCombDB?</h2>
       <article>
         <p>
-          DrugCombDB is a comprehensive database dedicated to integrating drug combinations from various data sources, include 1) high-throughput screening assays of drug combinations, 2) external databases, and 3)manual curations from PubMed literature. In total, DrugCombDB includes 4,226,900 experimental data points with quantitative dose response and concentrations of drug combinations covering 2879 unique drugs and 124 human cancer cell lines, and 138,076 FDA approved or literature-supported drug combinations.
+          DrugCombDB is a comprehensive database dedicated to integrating drug combinations from various data sources, include 1) high-throughput screening assays of drug combinations, 2) external databases, and 3)manual curations from PubMed literature. DrugCombDB contains 6,891,566 experimental data points with quantitative dose response and concentrations of drug combinations covering 2,887 unique drugs and 124 human cancer cell lines. In addition, ~2,000 FDA approved or literature-supported drug combinations collected from external databases and text-mining followed by manual curations can be downloaded.
         </p>
         <p>
           To the best of our knowledge, DrugCombDB is the first comprehensive database with the largest number of drug combinations to date. We believe it would greatly facilitate and accelerate the discovery of novel synergistic drugs for the therapy of complex diseases, especially for the cancers developed drug resistance. In particular, we computed the scores determining the synergy or antagonism of two drugs. To facilitate the downstream usage of our data resource, we prepared multiple datasets that are ready for building prediction models of classification and regression analysis.
         </p>
-        <p>
+        <!--<p>
           A website with user-friendly data visualization is provided to help users access the wealth of data. Users can input a drug of interest to retrieve associated drug combinations, together with the supporting evidence sources and drug targets. The dose responses and drugs concentrations with respect to cancer cell lines are displayed in interactive scatter plots.
-        </p>
+        </p>-->
       </article>
     </section>
   </FullPage>
@@ -235,7 +235,7 @@ export default {
     height: 120px;
     background: #f1f1f1;
     &>div{
-      width: 1000px;
+      width: 1100px;
       margin: 0 auto;
       height: 100%;
       display: flex;
