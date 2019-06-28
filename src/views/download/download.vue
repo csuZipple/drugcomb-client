@@ -2,22 +2,22 @@
   <FullPage>
     <section class="download-container">
       <div>
-        <HeaderTitle>Download DataSets</HeaderTitle>
+        <HeaderTitle>Dataset</HeaderTitle>
         <div class="content">
-          <p class="title">
+<!--          <p class="title">
             Single Drug Combination
           </p>
           <p>
             <Search v-model="keyword" place-holder="Input drug combination " search-text="Download" @search="handleSearch"/>
-          </p>
+          </p> -->
           <p class="title">
             SynergyScore - Two classification
           </p>
           <table>
             <tr><th>Index</th><th>Release Date</th><th>Dataset</th></tr>
-
+            <tr><td>1</td><td>2019.05.31</td><td><a href="http://drugcombdb.denglab.org/download/binary.xlsx" download="binary.xlsx">binary.xlsx</a></td></tr>
           </table>
-          <p class="title">All - Raw data</p>
+          <p class="title">Raw data</p>
           <div class="all-dataset">
             <table>
               <tr><th>Index</th><th>Release Date</th><th>Dataset</th></tr>
@@ -27,21 +27,22 @@
               Note: These data are for scientific research only and are not for commercial use.
             </p>
           </div>
-          <p class="title">Descriptions</p>
+          <!--<p class="title">Descriptions</p>
           <div class="description">
-            <p class="description-title">Combination.csv</p>
+            <p class="description-title">response_bliss.csv</p>
             <ul class="tips">
-              <li>id: key</li>
-              <li>fid: foreign key</li>
-              <li>source: the origin data</li>
-              <li>drug1name: drug name</li>
-              <li>drug2name: drug name</li>
-              <li>conc1: drug concentration</li>
-              <li>conc2: drug concentration</li>
-              <li>growth: Combined drug sensitivity score for this cancer cell line, between 0-1</li>
-              <li>cellline: The name of the cancer cell line</li>
+              <li>BlockID: Drug combination key</li>
+              <li>Row: The experimental row</li>
+              <li>Col: The experimental column</li>
+              <li>DrugRow: The row drug name</li>
+              <li>DrugCol: The column drug name</li>
+              <li>Response: </li>
+              <li>BlissScore:</li>
+              <li>ConcRowUnit: The experimental column drug concentration unit</li>
+              <li>ConcColUnit: The experimental column drug concentration unit</li>
+              <li>Source: Source of raw data</li>
             </ul>
-          </div>
+          </div>-->
           <p class="title">License</p>
           <p>MIT</p>
         </div>
@@ -65,13 +66,11 @@ export default {
     },
     handleDownLoad (index, fileName) {
       downloadFileByIndex(index).then(res => {
-        console.log(res.data instanceof Blob)
         const testBlob = res.data.slice(0)
         const reader = new FileReader()
         reader.readAsText(testBlob, 'utf-8')
         reader.onload = function (evt) {
           // 到底是后台返回的数据乱码了 还是前端接收数据流的时候创建的blob乱码了--
-          console.log(evt)
           const url = window.URL.createObjectURL(new Blob(['\uFEFF' + evt.target.result], {type: 'text/plain;charset=utf-8'}))
           const link = document.createElement('a')
           link.href = url

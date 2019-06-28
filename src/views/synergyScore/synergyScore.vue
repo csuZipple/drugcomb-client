@@ -16,7 +16,7 @@
             <!--            </div>-->
           </div>
           <template v-if="tableData.length">
-            <SimpleTable :header="Object.keys(tableData[0])" :body="tableData" :linkIndexList="[2,3,5]" @itemClicked="handleItemClicked"/>
+            <SimpleTable :header="Object.keys(tableData[0])" :body="tableData" :linkIndexList="[2,3,5,6]" @itemClicked="handleItemClicked"/>
             <Page show-elevator show-total  @pageClick="handleChangePage" :total="total" :current="pageNum" :page-size="pageSize" @changePage="handleChangePage" @pageSizeChange="handlePageSizeChange"/>
             <div class="table-tips">
               <HeaderTitle>
@@ -58,7 +58,7 @@ import Search from '../../components/Header/Search'
 import Dialog from '../../components/Dialog/Dialog'
 import Response from '../response/response'
 import CellLine from './components/cellLine'
-import {throttle} from '../../utils/util'
+import {throttle, sourceLinks} from '../../utils/util'
 export default {
   name: 'synergyScore',
   components: {CellLine, Response, Dialog, Search, Page, SimpleTable, Options, HeaderTitle, FullPage},
@@ -102,6 +102,9 @@ export default {
         case 'synergyscore':
           this.blockId = obj.id
           this.showResponseMatrix = true
+          break
+        case 'source':
+          window.open(sourceLinks[obj.source.toUpperCase()])
           break
         default:
           break

@@ -27,7 +27,7 @@
       <div>
         <Statistic :number="2887" unit="" info="Single Drugs"/>
         <Statistic :number="436627" unit="" info="Combinations"/>
-        <Statistic :number="6891566" unit="" info="Data points"/>
+        <Statistic :number="6891566" unit="" info="Dose responses"/>
         <Statistic :number="124" unit="" info="Cell Lines"/>
       </div>
     </section>
@@ -81,7 +81,7 @@ export default {
       }
       searchDrugPages(keyword, 1, 100).then(data => {
         if (data.total) {
-          this.tips = data.page.map(item => item.drugCombination)
+          this.tips = Array.from(new Set(data.page.map(item => item.drugCombination)))
         } else {
           this.$message('Can not find a drug containing this word.')
         }
