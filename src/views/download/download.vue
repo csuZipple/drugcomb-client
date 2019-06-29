@@ -2,13 +2,13 @@
   <FullPage>
     <section class="download-container">
       <div>
-        <HeaderTitle>Dataset for download</HeaderTitle>
+        <HeaderTitle>Datasets for download</HeaderTitle>
         <div class="content">
           <p class="title">Drug combinations with quantitative synerge scores</p>
           <div class="all-dataset">
             <table>
               <tr><th>No</th><th>File name (size)</th><th>Description</th><th>Release Date</th></tr>
-              <tr><td>1</td><td><a href="http://drugcombdb.denglab.org/download/drugcombs_scored.xlsx" download="drugcombs_scored.xlsx">drugcombs_scored.xlsx</a></td><td>Drug combinations with quantitative synerge scores computed using dose response matrices</td><td>2019.05.31</td></tr>
+              <tr><td>1</td><td><a href="http://drugcombdb.denglab.org/download/drugcombs_scored.xlsx" download="drugcombs_scored.xlsx">drugcombs_scored.xlsx</a></td><td>Drug combinations with quantitative synergy scores computed using dose response matrices</td><td>2019.05.31</td></tr>
             </table>
           </div>
           <p class="title">
@@ -18,33 +18,33 @@
             <tr><th>No</th><th>File name (size)</th><th>Description</th><th>Release Date</th></tr>
             <tr><td>1</td><td><a href="http://drugcombdb.denglab.org/download/Syner&Antag_zip.xlsx" download="Syner&Antag_zip.xlsx">Syner&Antag_zip.xlsx</a></td><td>Drug combinations classified by ZIP score </td><td>2019.05.31</td></tr>
             <tr><td>2</td><td><a href="http://drugcombdb.denglab.org/download/Syner&Antag_bliss.xlsx" download="Syner&Antag_bliss.xlsx">Syner&Antag_bliss.xlsx</a></td><td>Drug combinations classified by BLISS score </td><td>2019.05.31</td></tr>
-            <tr><td>3</td><td><a href="http://drugcombdb.denglab.org/download/yner&Antag_loewe.xlsx" download="yner&Antag_loewe.xlsx">Syner&Antag_loewe.xlsx</a></td><td>Drug combinations classified by Loewe score </td><td>2019.05.31</td></tr>
+            <tr><td>3</td><td><a href="http://drugcombdb.denglab.org/download/yner&Antag_loewe.xlsx" download="yner&Antag_loewe.xlsx">Syner&Antag_loewe.xlsx</a></td><td>Drug combinations classified by LOEWE score </td><td>2019.05.31</td></tr>
             <tr><td>4</td><td><a href="http://drugcombdb.denglab.org/download/Syner&Antag_hsa.xlsx" download="Syner&Antag_hsa.xlsx">Syner&Antag_hsa.xlsx</a></td><td>Drug combinations classified by HSA score </td><td>2019.05.31</td></tr>
           </table>
-          <p class="title">One category dataset</p>
+          <p class="title">One category dataset (synergism) </p>
           <div class="all-dataset">
             <table>
               <tr><th>No</th><th>File name (size)</th><th>Description</th><th>Release Date</th></tr>
-              <tr><td>1</td><td><a href="http://drugcombdb.denglab.org/download/oneClass_fda.xlsx" download="oneClass_fda.xlsx">oneClass_fda.xlsx</a></td><td>Drug combinations extracted from FDA orange book</td><td>2019.05.31</td></tr>
-              <tr><td>2</td><td><a href="http://drugcombdb.denglab.org/download/oneClass_textmining.xlsx" download="oneClass_textmining.xlsx">oneClass_textmining.xlsx</a></td><td>Drug combinations extracted from pubmed iteratures followed by manual curations. </td><td>2019.05.31</td></tr>
-              <tr><td>3</td><td><a href="http://drugcombdb.denglab.org/download/oneClass_fda&textmining.xlsx" download="oneClass_fda&textmining.xlsx">oneClass_fda&textmining.xlsx</a></td><td>Drug combinations extracted from FDA orange book and pubmed iteratures followed by manual curations. </td><td>2019.05.31</td></tr>
+              <tr><td>1</td><td><a href="http://drugcombdb.denglab.org/download/SynDrugComb_fda.xlsx" download="SynDrugComb_fda.xlsx">SynDrugComb_fda.xlsx</a></td><td>Drug combinations extracted from FDA orange book</td><td>2019.05.31</td></tr>
+              <tr><td>2</td><td><a href="http://drugcombdb.denglab.org/download/SynDrugComb_textmining.xlsx" download="SynDrugComb_textmining.xlsx">SynDrugComb_textmining.xlsx</a></td><td>Drug combinations extracted from pubmed iteratures followed by manual curations. </td><td>2019.05.31</td></tr>
+              <tr><td>3</td><td><a href="http://drugcombdb.denglab.org/download/SynDrugComb_fda&textmining.xlsx" download="SynDrugComb_fda&textmining.xlsx">SynDrugComb_fda&textmining.xlsx</a></td><td>Drug combinations extracted from FDA orange book and pubmed iteratures followed by manual curations. </td><td>2019.05.31</td></tr>
             </table>
           </div>
           <p class="title">Three-individual-drug combination dataset</p>
           <div class="all-dataset">
             <table>
               <tr><th>No</th><th>File name (size)</th><th>Description</th><th>Release Date</th></tr>
-              <tr><td>1</td><td><a href="http://drugcombdb.denglab.org/download/binary.xlsx" download="binary.xlsx">oneClass.xlsx</a></td><td>Drug combinations composed by three individual drugs </td><td>2019.05.31</td></tr>
+              <tr><td>1</td><td><a href="http://drugcombdb.denglab.org/download/binary.xlsx" download="ThreeDrugCombs.xlsx">ThreeDrugCombs.xlsx</a></td><td>Drug combinations composed by three individual drugs (synerge score is unavailable) </td><td>2019.05.31</td></tr>
             </table>
           </div>
           <p class="title">Supplementary data files</p>
           <div class="all-dataset">
             <table class="small">
-              <tr><th>Index</th><th>Release Date</th><th>Dataset</th></tr>
-              <tr v-for="(item,index) in allData" :key="index"><td>{{item.index}}</td><td>{{item.date}}</td><td><span @click="handleDownLoad(index, item.title)" class="download-link">{{item.title}}</span></td></tr>
+              <tr><th>No</th><th>Dataset</th><th>Release Date</th></tr>
+              <tr v-for="(item,index) in allData" :key="index"><td>{{item.index}}</td><td><span @click="handleDownLoad(index, item.title)" class="download-link">{{item.title}}</span></td><td>{{item.date}}</td></tr>
             </table>
             <p style="color: #ff0000;">
-              Note: These data are for scientific research only and are not for commercial use.
+              Note: All the datasets are for acedemic usage only.
             </p>
           </div>
         </div>
@@ -97,30 +97,20 @@ export default {
         {
           index: 1,
           date: '2019.04.19',
-          title: 'response_bliss.csv'
+          title: 'cell_Line.csv'
         },
         {
           index: 2,
           date: '2019.04.19',
-          title: 'drug_combination.csv'
-        },
-        {
-          index: 3,
-          date: '2019.04.19',
-          title: 'cell_Line.csv'
-        },
-        {
-          index: 4,
-          date: '2019.04.19',
           title: 'drug_chemical_info.csv'
         },
         {
-          index: 5,
+          index: 3,
           date: 'Latest',
           title: 'drug_protein_links.tsv'
         },
         {
-          index: 6,
+          index: 4,
           date: 'Latest',
           title: 'protein_protein_links.txt'
         }
