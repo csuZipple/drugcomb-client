@@ -60,7 +60,7 @@ export default {
   created () {
     getRecommendDrugIntegrationList().then(data => {
       // this.recommendList = data
-      this.recommendList = ['Lomustine - Megestrol acetate', 'Dexrazoxane - Melphalan', 'Lomustine', 'Thioguanine']
+      this.recommendList = ['Dasatinib - Doxorubicin', 'AZD1775 - Paclitaxel', 'Aripiprazole', 'Erlotinib']
     })
   },
   methods: {
