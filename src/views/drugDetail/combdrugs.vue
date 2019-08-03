@@ -3,12 +3,13 @@
     <section class="drug-info-container">
       <div>
         <HeaderTitle>
-          Drug-Detail-Information
+          CombDrug-Detail-Information
         </HeaderTitle>
         <div class="drug-info">
           <template v-if="drugProteinLinks && drugProteinLinks.links.length">
-            <DrugProteinNetworks :width="450" :height="410" :drugProteinLinks="drugProteinLinks" :smiles-string="drugInfo.smilesString" :molecular-weight="drugInfo.molecularWeight" :drug-description="drugDescription"/>
+            <CombDrugProteinNetworks :width="450" :height="410" :drugProteinLinks="drugProteinLinks" :smiles-string="drugInfo.smilesString" :molecular-weight="drugInfo.molecularWeight" :drug-description="drugDescription"/>
             <div v-if="drug_protein_table.length" style="padding: 8px 0;"><!--数据表格-->
+              <p class="table-title">Common targets of {{combDrugName[0]}} and {{combDrugName[1]}}</p>
               <SimpleTable :header="Object.keys(drug_protein_table[0])" :body="drug_protein_table"/>
               <Page show-elevator show-total  @pageClick="handleChangePage" :total="total" :current="pageNum" :page-size="pageSize" @changePage="handleChangePage" @pageSizeChange="handlePageSizeChange"/>
             </div>
@@ -20,60 +21,54 @@
             No Results.
           </div>
         </div>
-        <HeaderTitle>
-          Indication
-        </HeaderTitle>
-        <div class="clinical-response">
-          {{drugInfoExtra ? drugInfoExtra.indication : 'The data is about to be added...'}}
-        </div>
-        <HeaderTitle>
-          PharmacoDynamics
-        </HeaderTitle>
-        <div class="side-effects">
-          {{drugInfoExtra ? drugInfoExtra.pharmacoDynamics : 'The data is about to be added...'}}
-        </div>
       </div>
     </section>
   </FullPage>
 </template>
 
-<script>
-import FullPage from '../../components/FullPage/FullPage'
+<script>import FullPage from '../../components/FullPage/FullPage'
 import HeaderTitle from '../../components/Header/HeaderTitle'
-import {getDrugInfoByDrugName, getDrugInfoExtraByDrugId, getDrugInfoDescriptionByDrugId, getDrugProteinLinksInformation, getDrugProteinLinksPages} from '../../api/api'
+import {getCombDrugProteinLinksInformation, getDrugInfoDescriptionByDrugId, getDrugInfoExtraByDrugId, getCombDrugProteinLinksPages, getDrugInfoByDrugNames} from '../../api/api'
 import DrugProteinNetworks from '../../components/Visualization/DrugProteinNetworks'
 import SimpleTable from '../../components/Table/SimpleTable'
 import Page from '../../components/Paging/Paging'
+import CombDrugProteinNetworks from '../../components/Visualization/CombDrugProteinNetworks'
 export default {
-  name: 'drugDetail',
-  components: {Page, SimpleTable, DrugProteinNetworks, HeaderTitle, FullPage},
+  name: 'drugcombination',
+  components: {Page, SimpleTable, CombDrugProteinNetworks, DrugProteinNetworks, HeaderTitle, FullPage},
   mounted () {
     this.fetchData()
   },
   methods: {
     fetchData () {
-      const drugName = this.$route.query.drugName
-      this.drugName = drugName
-      if (drugName === '') {
+      /*  const drugName = this.$route.query.drugName
+      this.drugName = drugName  */
+      var com = this.$route.query.drugcombination.split(' - ')
+      this.combdurgsName = com
+      if (this.combdurgsName === '') {
         this.$message({
           type: 'error',
           text: 'Path Error'
         })
       } else {
-        getDrugInfoByDrugName(drugName).then(data => { /* 在drug_chemical_info中搜根据drugname */
+        getDrugInfoByDrugNames(this.combdurgsName[0], this.combdurgsName[1]).then(data => { /* 根据两个name来找两个cid */
           this.drugInfo = data
-          console.log(data)
+          console.log('两个cids')
+          console.log(this.drugInfo)
           return data
         }).then(data => {
-          getDrugProteinLinksInformation(data.cIds).then(data => {
+          getCombDrugProteinLinksInformation(data[0], data[1]).then(data => {
+            console.log('getCombDrugProteinLinksInformation:')
             console.log(data)
-            this.drugProteinLinks = data /* 这个是画图的 */
+            this.drugProteinLinks = data // 尝试传入两个药物ID进去
           })
-          getDrugInfoExtraByDrugId(data.cIds).then(data => { /* 在drug_chemical_info_extra根据CID，只要了Indication和Pharmacodynamics */
+          getDrugInfoExtraByDrugId(this.drugInfo[0]).then(data => { /* 在drug_chemical_info_extra根据CID，只要了Indication和Pharmacodynamics */
+            console.log('getDrugInfoExtraByDrugId:')
             console.log(data)
             this.drugInfoExtra = data
           })
-          getDrugInfoDescriptionByDrugId(data.cIds).then(data => {
+          getDrugInfoDescriptionByDrugId(this.drugInfo[0]).then(data => {
+            console.log('getDrugInfoDescriptionByDrugId')
             console.log(data)
             this.drugDescription = data.description
           })
@@ -88,13 +83,14 @@ export default {
       }
     },
     updateTableData () {
-      if (this.drugInfo.cIds) {
-        getDrugProteinLinksPages(this.drugInfo.cIds, this.pageNum, this.pageSize).then(data => { /* 这个就是表格了 */
-          console.log(data)
-          this.drug_protein_table = data.page
+      if (this.drugInfo) {
+        getCombDrugProteinLinksPages(this.drugInfo[0], this.drugInfo[1], this.pageNum, this.pageSize).then(data => {
+          this.drug_protein_table = data.page.sort((p, c) => {
+            return +p.proteinId.replace('9606.ENSP', '') - c.proteinId.replace('9606.ENSP', '')
+          })
           this.total = data.total
-          console.log(data.page)
-          console.log(data.total)
+          console.log('getCombDrugProteinLinksPages:')
+          console.log(this.drug_protein_table)
         })
       } else {
         this.$message({
@@ -122,7 +118,13 @@ export default {
       pageNum: 1,
       pageSize: 10,
       total: -1,
+      combdurgsName: [],
       drugDescription: ''
+    }
+  },
+  computed: {
+    combDrugName () {
+      return this.$route.query.drugcombination.split(' - ')
     }
   },
   watch: {
@@ -149,6 +151,12 @@ export default {
       height: 100%;
       &>div{
         padding-left: 30px;
+        .table-title{
+          /*text-align: center;*/
+          font-weight: 300;
+          font-size: 24px;
+          padding: 10px 0;
+        }
       }
     }
   }

@@ -76,13 +76,10 @@
     <div class="legend-container">
       <p class="title">Description</p>
       <p>{{drugDescription}}</p>
-      <p class="title">Chemical</p>
+      <p class="title">introduce</p>
       <ul class="line">
         <li>
-          Weight: {{molecularWeight}}
-        </li>
-        <li>
-          SmilesString: {{smilesString}}
+          In this introduc: {{molecularWeight}}
         </li>
       </ul>
     </div>
@@ -93,7 +90,7 @@
 import {charts} from '../../mixins/charts'
 import * as d3 from 'd3'
 export default {
-  name: 'DrugProteinNetworks',
+  name: 'CombDrugProteinNetworks',
   mixins: [charts],
   props: {
     drugProteinLinks: {
@@ -110,8 +107,7 @@ export default {
     }
   },
   mounted () {
-    this.drugName = this.$route.query.drugName
-    console.log(this.drugName)
+    this.drugName = this.$route.query.drugcombination.split(' - ')
     this.mountForceLayout()
   },
   methods: {
@@ -133,9 +129,9 @@ export default {
         .append('line')
         .attr('stroke', '#aaa')
         .attr('stroke-width', '3px')
-
       const nodeContainer = svg.append('g')
-      this.generateRect(nodeContainer)
+      this.generateRect1(nodeContainer) // 确认了固定的节点
+      this.generateRect2(nodeContainer)
       const node = nodeContainer
         .selectAll('g')
         .data(graph.nodes)
@@ -157,7 +153,15 @@ export default {
 
       this.generateCircle(node)
 
-      graph.nodes[0].fx = width / 2
+      graph.nodes[1].fx = width / 2 - 110
+      graph.nodes[1].fy = height / 2
+      node.append('title').text(d => d.protein ? d.protein.annotation : d.id)
+      node.append('text')
+        .attr('fill', 'black')
+        .style('font-size', '16px')
+        .text(d => d.protein ? d.protein.preferredName : 'None')
+
+      graph.nodes[0].fx = width / 2 + 105 // 此处是控制药物线的节点位置
       graph.nodes[0].fy = height / 2
       node.append('title').text(d => d.protein ? d.protein.annotation : d.id)
       node.append('text')
@@ -185,9 +189,13 @@ export default {
           .attr('x', d => d.x - this.radius)
           .attr('y', d => d.y + 2 * this.radius)
 
-        nodeContainer.select('.rect').select('text')
+        nodeContainer.select('.rect1').select('text')
           .attr('x', this.drugProteinLinks.nodes[0].x - 35)
           .attr('y', this.drugProteinLinks.nodes[0].y + 30)
+
+        nodeContainer.select('.rect2').select('text')
+          .attr('x', this.drugProteinLinks.nodes[1].x - 35)
+          .attr('y', this.drugProteinLinks.nodes[1].y + 30)
       })
       simulation.force('link').links(graph.links)
     },
@@ -223,9 +231,9 @@ export default {
         .attr('ry', 6)
         .attr('fill', 'url(#brilliance_gradient)')
     },
-    generateRect (container, width = this.width / 2 - 5, height = this.height / 2, rectHeight = 30) {
+    generateRect1 (container, width = this.width / 2 + 100, height = this.height / 2, rectHeight = 30) {
       const g = container.append('g')
-      g.attr('class', 'rect')
+      g.attr('class', 'rect1')
       const w = rectHeight / 2
       const path = `M${width - w},${height - w} A15,15 0 0,0 ${width - w},${height + w} L${width + rectHeight},${height + w} A15,15 0 0,0 ${width + rectHeight},${height - w} z`
       const transform1 = `translate(${width - rectHeight},${height - w}) translate(0,10) scale(1,0.75) translate(-${width - rectHeight},-${height - w})`
@@ -251,7 +259,41 @@ export default {
       g.append('text')
         .attr('fill', 'black')
         .style('font-size', '16px')
-        .text(this.drugName)
+        .text(this.drugName[0])
+
+      // g.on('click', () => {
+      //   console.log('this', this.$emit('centerNodeClick'))
+      // })
+    },
+    generateRect2 (container, width = this.width / 2 - 120, height = this.height / 2, rectHeight = 30) { // 控制药物的位置
+      const g = container.append('g')
+      g.attr('class', 'rect2')
+      const w = rectHeight / 2
+      const path = `M${width - w},${height - w} A15,15 0 0,0 ${width - w},${height + w} L${width + rectHeight},${height + w} A15,15 0 0,0 ${width + rectHeight},${height - w} z`
+      const transform1 = `translate(${width - rectHeight},${height - w}) translate(0,10) scale(1,0.75) translate(-${width - rectHeight},-${height - w})`
+      const transform2 = `translate(${width - rectHeight},${height - w}) scale(0.8,0.3) translate(9,7) translate(-${width - rectHeight},-${height - w})`
+      g.append('path').attr('d', path)
+        .attr('fill', '#000000')
+        .attr('opacity', 0.6)
+        .attr('filter', 'url(#filter_shadow)')
+        .attr('transform', transform1)
+      g.append('path').attr('d', path)
+        .attr('fill', 'url(#pill_gradient1)')
+      g.append('path').attr('d', path)
+        .attr('fill', 'url(#pill_gradient2)')
+        .attr('opacity', 0.33)
+      g.append('path').attr('d', path)
+        .attr('fill', 'rgb(255,0,0)')
+        .attr('opacity', 0.5)
+        .attr('cursor', 'pointer')
+        .append('title').text(this.drugProteinLinks.nodes[1].id)
+      g.append('path').attr('d', path)
+        .attr('fill', 'url(#pill_brilliance_gradient)')
+        .attr('transform', transform2)
+      g.append('text')
+        .attr('fill', 'black')
+        .style('font-size', '16px')
+        .text(this.drugName[1])
 
       // g.on('click', () => {
       //   console.log('this', this.$emit('centerNodeClick'))
@@ -264,7 +306,7 @@ export default {
   data () {
     return {
       radius: 20,
-      drugName: ''
+      drugName: []
     }
   },
   computed: {

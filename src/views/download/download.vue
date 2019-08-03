@@ -8,7 +8,7 @@
           <div class="all-dataset">
             <table>
               <tr><th>No</th><th>File name (size)</th><th>Description</th><th>Release Date</th></tr>
-              <tr><td>1</td><td><a href="http://drugcombdb.denglab.org/download/drugcombs_scored.xlsx" download="drugcombs_scored.xlsx">drugcombs_scored.xlsx</a></td><td>Drug combinations with quantitative synergy scores computed using dose response matrices</td><td>2019.05.31</td></tr>
+              <tr><td>1</td><td><a href="http://drugcombdb.denglab.org/download/drugcombs_scored.csv" download="drugcombs_scored.csv">drugcombs_scored.csv</a></td><td>Drug combinations with quantitative synergy scores computed using dose response matrices</td><td>2019.05.31</td></tr>
             </table>
           </div>
           <p class="title">
@@ -16,10 +16,10 @@
           </p>
           <table>
             <tr><th>No</th><th>File name (size)</th><th>Description</th><th>Release Date</th></tr>
-            <tr><td>1</td><td><a href="http://drugcombdb.denglab.org/download/Syner&Antag_zip.xlsx" download="Syner&Antag_zip.xlsx">Syner&Antag_zip.xlsx</a></td><td>Drug combinations classified by ZIP score </td><td>2019.05.31</td></tr>
-            <tr><td>2</td><td><a href="http://drugcombdb.denglab.org/download/Syner&Antag_bliss.xlsx" download="Syner&Antag_bliss.xlsx">Syner&Antag_bliss.xlsx</a></td><td>Drug combinations classified by BLISS score </td><td>2019.05.31</td></tr>
-            <tr><td>3</td><td><a href="http://drugcombdb.denglab.org/download/yner&Antag_loewe.xlsx" download="yner&Antag_loewe.xlsx">Syner&Antag_loewe.xlsx</a></td><td>Drug combinations classified by LOEWE score </td><td>2019.05.31</td></tr>
-            <tr><td>4</td><td><a href="http://drugcombdb.denglab.org/download/Syner&Antag_hsa.xlsx" download="Syner&Antag_hsa.xlsx">Syner&Antag_hsa.xlsx</a></td><td>Drug combinations classified by HSA score </td><td>2019.05.31</td></tr>
+            <tr><td>1</td><td><a href="http://drugcombdb.denglab.org/download/Syner&Antag_zip.csv" download="Syner&Antag_zip.csv">Syner&Antag_zip.csv</a></td><td>Drug combinations classified by ZIP score </td><td>2019.05.31</td></tr>
+            <tr><td>2</td><td><a href="http://drugcombdb.denglab.org/download/Syner&Antag_bliss.csv" download="Syner&Antag_bliss.csv">Syner&Antag_bliss.csv</a></td><td>Drug combinations classified by BLISS score </td><td>2019.05.31</td></tr>
+            <tr><td>3</td><td><a href="http://drugcombdb.denglab.org/download/yner&Antag_loewe.csv" download="yner&Antag_loewe.csv">Syner&Antag_loewe.csv</a></td><td>Drug combinations classified by LOEWE score </td><td>2019.05.31</td></tr>
+            <tr><td>4</td><td><a href="http://drugcombdb.denglab.org/download/Syner&Antag_hsa.csv" download="Syner&Antag_hsa.csv">Syner&Antag_hsa.csv</a></td><td>Drug combinations classified by HSA score </td><td>2019.05.31</td></tr>
           </table>
           <p class="title">One category dataset (synergism) </p>
           <div class="all-dataset">
@@ -34,14 +34,14 @@
           <div class="all-dataset">
             <table>
               <tr><th>No</th><th>File name (size)</th><th>Description</th><th>Release Date</th></tr>
-              <tr><td>1</td><td><a href="http://drugcombdb.denglab.org/download/binary.xlsx" download="ThreeDrugCombs.xlsx">ThreeDrugCombs.xlsx</a></td><td>Drug combinations composed by three individual drugs (synerge score is unavailable) </td><td>2019.05.31</td></tr>
+              <tr><td>1</td><td><a href="http://drugcombdb.denglab.org/download/ThreeDrugCombs.csv" download="ThreeDrugCombs.csv">ThreeDrugCombs.csv</a></td><td>Drug combinations composed by three individual drugs (synerge score is unavailable) </td><td>2019.05.31</td></tr>
             </table>
           </div>
           <p class="title">Supplementary data files</p>
           <div class="all-dataset">
             <table class="small">
               <tr><th>No</th><th>Dataset</th><th>Release Date</th></tr>
-              <tr v-for="(item,index) in allData" :key="index"><td>{{item.index}}</td><td><span @click="handleDownLoad(index, item.title)" class="download-link">{{item.title}}</span></td><td>{{item.date}}</td></tr>
+              <tr v-for="(item,index) in allData" :key="index"><td>{{index+1}}</td><td><span @click="handleDownLoad(item.index-1, item.title)" class="download-link">{{item.title}}</span></td><td>{{item.date}}</td></tr>
             </table>
             <p style="color: #ff0000;">
               Note: All the datasets are for acedemic usage only.
@@ -95,22 +95,22 @@ export default {
       keyword: '',
       allData: [
         {
-          index: 1,
+          index: 3,
           date: '2019.04.19',
           title: 'cell_Line.csv'
         },
         {
-          index: 2,
+          index: 4,
           date: '2019.04.19',
           title: 'drug_chemical_info.csv'
         },
         {
-          index: 3,
+          index: 5,
           date: 'Latest',
           title: 'drug_protein_links.tsv'
         },
         {
-          index: 4,
+          index: 6,
           date: 'Latest',
           title: 'protein_protein_links.txt'
         }
@@ -165,6 +165,11 @@ export default {
           tr:last-child{
             td{
               border-bottom: 1px solid #ddd;
+            }
+          }
+          tr{
+            td:first-child,td:last-child{
+              text-align: center;
             }
           }
         }

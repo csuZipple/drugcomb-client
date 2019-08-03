@@ -23,7 +23,16 @@
                 <tr><th>Structure</th><td><img :src="drugInfoList[0].originImgUrl" alt="ChemicalStructure"/></td><td><img :src="drugInfoList[1].originImgUrl" alt="ChemicalStructure"/></td></tr>
                 <tr><th>Molecular Weight</th><td>{{drugInfoList[0].molecularWeight}}</td><td>{{drugInfoList[1].molecularWeight}}</td></tr>
                 <tr><th>Smiles String</th><td>{{drugInfoList[0].smilesString}}</td><td>{{drugInfoList[1].smilesString}}</td></tr>
-                <tr><th>Relative</th><td colspan="2"><a href="https://pubchem.ncbi.nlm.nih.gov/" target="_blank">Pubchem</a>、<a target="_blank" href="http://stitch.embl.de/cgi/input.pl?UserId=T1zxeKQ17paY&sessionId=lqPqezatuxhA">STITCH</a></td></tr>
+                <tr><th>Relative</th>
+                  <td colspan="2">
+                    <a class="pubchem" href="https://pubchem.ncbi.nlm.nih.gov/" target="_blank">
+                      <img src="../../assets/pubchem.png" alt=""/>
+                    </a>
+                    <a class="stitch" target="_blank" href="http://stitch.embl.de/cgi/input.pl?UserId=T1zxeKQ17paY&sessionId=lqPqezatuxhA">
+                      <img src="../../assets/stitch.png" alt=""/>
+                    </a>
+                  </td>
+                </tr>
               </table>
             </div>
           </div>
@@ -156,6 +165,11 @@ export default {
                 color: @theme-color;
                 &:hover{
                   text-decoration: underline;
+                }
+                img{
+                  width: 60px;
+                  height: 25px;
+                  object-fit: contain;
                 }
               }
             }

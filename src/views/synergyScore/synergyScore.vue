@@ -15,8 +15,28 @@
             <!--              </ul>-->
             <!--            </div>-->
           </div>
+          <!--<selectCellName @getSelectCellName="getCellName" :cellname="CellName" ></selectCellName>-->
+         <!-- <div class='example-3'>
+            <span v-for="(n,i) in CellName" v-bind:key="i" >
+              <input type="checkbox" :value="n" :id="n" :name="n" v-model="checkedNames" >
+              <label class="la" :for="n" >  【{{n}}】  </label>
+            </span>
+            <br>
+            <span>Selected diseaseNames: {{ checkedNames }}</span>
+          </div>-->
+          <div style="padding: 10px;" class="filter" v-if="CellName.length">
+            <span class="filter-tag">Filter by tissue: </span>
+            <div class="filter-area">
+              <div v-if="!isCollapse" class="filter-list">
+                <label class="checkbox" v-for="(item, index) in CellName" :key="index"><input type="checkbox" :value="item" v-model="checkedNames"/>{{item}}</label>
+              </div>
+              <a class="toggle-collapse" v-if="checkedNames.length" href="" @click.prevent="checkedNames = []">reset</a>
+              <a class="toggle-collapse" href="" @click.prevent="isCollapse = !isCollapse">{{isCollapse? 'open' : 'collapse'}}</a>
+            </div>
+          </div>
+          <!-- 在这里写一个button 调用到search函数 -->
           <template v-if="tableData.length">
-            <SimpleTable :header="Object.keys(tableData[0])" :body="tableData" :linkIndexList="[2,3,5,6]" @itemClicked="handleItemClicked"/>
+            <SimpleTable :header="Object.keys(tableData[0])" :body="tableData" :linkIndexList="[1,2,3,5,6]" @itemClicked="handleItemClicked"/>
             <Page show-elevator show-total  @pageClick="handleChangePage" :total="total" :current="pageNum" :page-size="pageSize" @changePage="handleChangePage" @pageSizeChange="handlePageSizeChange"/>
             <div class="table-tips">
               <HeaderTitle>
@@ -51,38 +71,46 @@
 import FullPage from '../../components/FullPage/FullPage'
 import HeaderTitle from '../../components/Header/HeaderTitle'
 import Options from '../../components/Paging/Options'
-import {getDrugIntegrationPages, searchDrugPages, searchDrugCombinationByCombinationName} from '../../api/api'
+import {getDrugIntegrationPages, searchDrugPages, getAllcellName, getDrugNameCellName, searchDrugCombinationByCombinationName} from '../../api/api'
 import SimpleTable from '../../components/Table/SimpleTable'
 import Page from '../../components/Paging/Paging'
 import Search from '../../components/Header/Search'
 import Dialog from '../../components/Dialog/Dialog'
 import Response from '../response/response'
 import CellLine from './components/cellLine'
+import selectCellName from '../../components/Select/selectCellName'
 import {throttle, sourceLinks} from '../../utils/util'
 export default {
   name: 'synergyScore',
-  components: {CellLine, Response, Dialog, Search, Page, SimpleTable, Options, HeaderTitle, FullPage},
+  components: {CellLine, Response, selectCellName, Dialog, Search, Page, SimpleTable, Options, HeaderTitle, FullPage},
   methods: {
     handleSearch (keyword) {
-      if (keyword !== this.keyword) {
+      if (keyword !== this.keyword) { // 再在这里确定了keyword不同之后，再根据keyword来取cellname数据
         this.keyword = keyword
         this.pageNum = 1
         this.tips = [] // close tips
+        this.checkedNames = []
         this.updateTableData()
       }
     },
-    handleInput (keyword) {
+    handleInput (keyword) { // 输入变化就会调用到此函数
+      console.log('输入有变化了')
+      console.log(keyword)
       if (keyword !== this.keyword) {
+        console.log('与原来的不一样了')
         this.keyword = keyword
       }
       throttle(this.onInputSearch, null, [keyword])
     },
     onInputSearch (keyword) {
-      if (keyword === '') {
+      if (keyword === '') { // 输入缩减至空时,this.keyword也为空了，那么这里也需要调用函数找所有的cellname
         this.tips = [] // close tips
         return
       }
-      searchDrugPages(keyword, 1, 100).then(data => {
+      console.log('进入后台')
+      console.log(keyword)
+      var tempCellNames4 = this.checkedNames.join("','")
+      searchDrugPages(keyword, 1, 100, tempCellNames4).then(data => {
         if (data.total) {
           this.tips = data.page.map(item => item.drugCombination)
         } else {
@@ -90,11 +118,18 @@ export default {
         }
       })
     },
+    cleanCellName () {
+      this.checkedNames = []
+    },
     handleItemClicked (col, key, obj) {
       switch (key.toLowerCase()) {
+        case 'drugcombination':
+          window.open(`/combdrugs?drugcombination=${encodeURIComponent(col.trim())}`)
+          // this.$router.push(`/combdrugs?drugcombination=${encodeURIComponent(col.trim())}`) // <!--这个地方应该如何跳转？-->
+          break
         case 'drug1':
         case 'drug2':
-          this.$router.push(`/drugDetail?drugName=${encodeURIComponent(col.trim())}`)
+          window.open(`/drugDetail?drugName=${encodeURIComponent(col.trim())}`)
           break
         case 'cellname':
           this.showCellLineDialog = true
@@ -111,8 +146,10 @@ export default {
       }
     },
     updateTableData () {
-      if (this.keyword === '') {
-        getDrugIntegrationPages(this.pageNum, this.pageSize).then(data => {
+      if (this.keyword === '') { // 为空时，get到所有的
+        console.log('为空')
+        var tempCellNames1 = this.checkedNames.join("','")
+        getDrugIntegrationPages(this.pageNum, this.pageSize, tempCellNames1).then(data => { // 将获得到的数据放入data中保存
           if (data.total) {
             this.tableData = data.page
             this.total = data.total
@@ -120,10 +157,15 @@ export default {
             this.$message('Not Found')
           }
         })
+        this.GetdrugNameCellname(this.keyword)
       } else {
-        // 判断是搜索组合药物还是搜索单个药物
+        // 判断是否为组合药物  需要新加cellname参数，来进行筛选
         if (this.keyword.split(' - ').length > 1) {
-          searchDrugCombinationByCombinationName(this.keyword, this.pageNum, this.pageSize).then(data => {
+          console.log('两个药物')
+          console.log(this.checkedNames)
+          var tempCellNames2 = this.checkedNames.join("','")
+          searchDrugCombinationByCombinationName(this.keyword, this.pageNum, this.pageSize, tempCellNames2).then(data => {
+            console.log('进来了两个药物')
             if (data.total) {
               this.tableData = data.page
               this.total = data.total
@@ -132,7 +174,9 @@ export default {
             }
           })
         } else {
-          searchDrugPages(this.keyword, this.pageNum, this.pageSize).then(data => {
+          console.log('一个药物')
+          var tempCellNames3 = this.checkedNames.join("','")
+          searchDrugPages(this.keyword, this.pageNum, this.pageSize, tempCellNames3).then(data => {
             if (data.total) {
               this.tableData = data.page
               this.total = data.total
@@ -141,6 +185,32 @@ export default {
             }
           })
         }
+        this.GetdrugNameCellname(this.keyword)
+      }
+    },
+    GetdrugNameCellname (keyword) {
+      console.log('查找')
+      console.log(keyword)
+      if (keyword === '') { // 为空时，搜索所有的cellname
+        console.log('为空的时候')
+        getAllcellName().then(data => {
+          if (data) {
+            this.CellName = data
+            console.log(this.CellName)
+          } else {
+            this.$message('Not Found')
+          }
+        })
+      } else {
+        console.log('不为空的时候')
+        getDrugNameCellName(keyword).then(data => {
+          if (data) {
+            this.CellName = data
+            console.log(this.CellName)
+          } else {
+            this.$message('Not Found')
+          }
+        })
       }
     },
     handleChangePage (index) {
@@ -149,24 +219,34 @@ export default {
     handlePageSizeChange (current, size) {
       this.pageNum = current
       this.pageSize = size
+    },
+    getCellName (val) {
+      console.log('获得的cellname:')
+      console.log(val)
     }
   },
-  mounted () {
+  mounted () { // 该函数只在刚刚进入到本页面触发      首先从synergyScore获取后面的传值，判断并取cellname数据
+    console.log(this.$route.query.q)
     this.keyword = this.$route.query.q || this.keyword
+    console.log('22222')
+    console.log(this.keyword)
     this.updateTableData()
   },
   data () {
     return {
       tables: [],
       tableData: [],
+      CellName: [],
       total: -1,
       pageNum: 1,
       pageSize: 10,
       keyword: '',
       blockId: -1,
+      checkedNames: [],
       showResponseMatrix: false,
       showCellLineDialog: false,
-      tips: [] // search tips
+      tips: [], // search tips,
+      isCollapse: true
     }
   },
   watch: {
@@ -174,6 +254,9 @@ export default {
       this.updateTableData()
     },
     pageSize () {
+      this.updateTableData()
+    },
+    checkedNames () {
       this.updateTableData()
     }
   }
@@ -196,6 +279,50 @@ export default {
     }
     .content{
       padding-left: 10px;
+      .example-3{
+        .act{
+          background: yellow;
+        }
+        .la{
+          background: whitesmoke;
+        }
+      }
+
+      .filter{
+        display: flex;
+        .filter-tag{
+          height: 30px;
+          width: 110px;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+        }
+        .filter-area{
+          margin-left: 10px;
+          .filter-list{
+            max-height: 150px;
+            overflow-y: auto;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            .checkbox{
+              height: 30px;
+              display: inline-flex;
+              align-items: center;
+              margin: 5px 8px;
+              input{
+                margin: 0 3px;
+              }
+            }
+          }
+          .toggle-collapse{
+            height: 30px;
+            margin: 0 8px;
+            display: inline-flex;
+            align-items: center;
+          }
+        }
+      }
 
       .search-tips{
         padding: 10px 0;

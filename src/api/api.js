@@ -11,11 +11,12 @@ export const getDrugCombPagination = (page, size) => {
   })
 }
 
-export const getDrugIntegrationPages = (page, size) => {
+export const getDrugIntegrationPages = (page, size, checkedNames) => { // 在这里把page和size都传了进去
   return axios.get(`/integration/list`, {
     params: {
       page,
-      size
+      size,
+      checkedNames
     }
   })
 }
@@ -30,6 +31,15 @@ export const getIndividualDrugIntegrationByBlockId = (blockId) => {
 
 export const getDrugInfoByDrugName = name => {
   return axios.get(`/chemical/info/${name}`)
+}
+export const getDrugInfoByDrugNames = (name1, name2) => {
+  return axios.get(`/chemical/combinfo`, {
+    timeout: 30000,
+    params: {
+      name1,
+      name2
+    }
+  })
 }
 export const getDrugInfoExtraByDrugId = id => {
   return axios.get(`/chemical/extra/${id}`)
@@ -52,18 +62,31 @@ export const getRecommendDrugIntegrationList = () => {
   return axios.get(`/integration/recommends`)
 }
 
-export const searchDrugCombinationByCombinationName = (combination, page, size) => {
-  return axios.get(`/integration/search`, {
+export const getAllcellName = () => {
+  return axios.get(`/integration/allCellname`)
+}
+
+export const getDrugNameCellName = (drugName) => {
+  return axios.get(`/integration/allDrugNameCellname`, {
     params: {
-      combination,
-      page,
-      size
+      drugName
     }
   })
 }
 
-export const searchDrugPages = (drugName, page, size) => {
-  return axios.get(`/integration/search/${encodeURIComponent(drugName)}?page=${page}&size=${size}`)
+export const searchDrugCombinationByCombinationName = (combination, page, size, checkedNames) => {
+  return axios.get(`/integration/search`, {
+    params: {
+      combination,
+      page,
+      size,
+      checkedNames
+    }
+  })
+}
+
+export const searchDrugPages = (drugName, page, size, checkedNames) => {
+  return axios.get(`/integration/search/${encodeURIComponent(drugName)}?page=${page}&size=${size}&checkedNames=${checkedNames}`)
 }
 
 export const getDrugProteinLinksInformation = drugId => {
@@ -71,6 +94,17 @@ export const getDrugProteinLinksInformation = drugId => {
     timeout: 30000
   })
 }
+
+export const getCombDrugProteinLinksInformation = (cid1, cid2) => {
+  return axios.get(`/proteins/combcids`, {
+    timeout: 30000,
+    params: {
+      cid1,
+      cid2
+    }
+  })
+}
+
 export const getDrugProteinLinksPages = (drugId, page, size) => {
   return axios.get(`/proteins/${drugId}/page`, {
     timeout: 30000,
@@ -80,6 +114,19 @@ export const getDrugProteinLinksPages = (drugId, page, size) => {
     }
   })
 }
+
+export const getCombDrugProteinLinksPages = (cid1, cid2, page, size) => {
+  return axios.get(`/proteins/page`, {
+    timeout: 30000,
+    params: {
+      cid1,
+      cid2,
+      page,
+      size
+    }
+  })
+}
+
 export const downloadFileByIndex = index => {
   return axios.post(`/download/${index}`, {}, {
     timeout: Infinity,

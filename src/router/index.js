@@ -17,6 +17,11 @@ const router = new Router({
   },
   routes: [
     {
+      path: '/combdrugs',
+      name: 'combdrugs',
+      component: () => import('../views/drugDetail/combdrugs')
+    },
+    {
       path: '/main',
       name: 'main',
       component: () => import('../views/main/main')
@@ -54,7 +59,7 @@ router.beforeEach((to, from, next) => {
   const requestList = store.state.status.request.queue
   requestList.forEach((cancel) => {
     // 当请求执行完以后队列里的对象是null 需要判断是不是函数 不然会报错卡住
-    typeof cancel === 'function' && cancel(`取消数据加载请求`)
+    typeof cancel === 'function' && cancel(`cancel loading data`)
   })
   if (requestList.length) store.dispatch('status/clearRequestQueue')
   next()
