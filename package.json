@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "animate.css": "^3.7.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "d3": "^5.9.1",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
